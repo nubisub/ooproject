@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 //import dbconnection.DBConnection;
-import com.example.application.data.db.dbconnection;
+//import com.example.application.data.db.dbconnection;
 
 @PageTitle("Daftar UKM")
 @Route(value = "daftarukm", layout = MainLayout.class)
@@ -34,7 +34,7 @@ public class DaftarUKMView extends Div {
     private static final Set<String> states = new LinkedHashSet<>();
     private static final Set<String> countries = new LinkedHashSet<>();
     private static final Set<String> ukm = new LinkedHashSet<>();
-    dbconnection db = new dbconnection();
+//    dbconnection db = new dbconnection();
     static {
         ukm.addAll(Arrays.asList("UKM 1", "UKM 2", "UKM 3", "UKM 4", "UKM 5", "UKM 6", "UKM 7", "UKM 8", "UKM 9", "UKM 10"));
         states.addAll(Arrays.asList("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
@@ -84,7 +84,7 @@ public class DaftarUKMView extends Div {
 
     public DaftarUKMView() {
 //        dbconnection.getInstance().connect();
-        dbconnection.getInstance().getMahasiswa();
+//        dbconnection.getInstance().getMahasiswa();
 
         addClassNames("daftar-ukm-view", "flex", "flex-col", "h-full");
 
