@@ -1,10 +1,13 @@
 package com.example.application.views;
 
 
+import com.example.application.security.SecurityService;
 import com.example.application.views.daftarukm.DaftarUKMView;
 import com.example.application.views.profile.ProfileView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
@@ -13,13 +16,19 @@ import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Nav;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.html.UnorderedList;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
+
+import javax.swing.text.html.ListView;
 
 /**
  * The main view is a top-level placeholder for other views.
  */
 public class MainLayout extends AppLayout {
-
+    private final SecurityService securityService;
     /**
      * A simple navigation item component, based on ListItem element.
      */
@@ -63,7 +72,15 @@ public class MainLayout extends AppLayout {
 
     }
 
-    public MainLayout() {
+    public MainLayout(SecurityService securityService) {
+        this.securityService = securityService;
+//        createHeader();
+//        createDrawer();
+//        redirect to login page
+//        if(!Session.getCurrent().getAttribute("user").equals("")){
+
+
+//        getUI().ifPresent(ui -> ui.navigate("login-basic"));
         addToNavbar(createHeaderContent());
     }
 
@@ -72,10 +89,10 @@ public class MainLayout extends AppLayout {
         header.addClassNames("bg-base", "border-b", "border-contrast-10", "box-border", "flex", "flex-col", "w-full");
 
         Div layout = new Div();
-        layout.addClassNames("flex", "h-xl", "items-center", "px-l");
+        layout.addClassNames("flex", "h-xl", "items-center", "px-l","pt-s");
 
         H1 appName = new H1("Pilih UKM Yuk");
-        appName.addClassNames("my-0", "me-auto", "text-l");
+        appName.addClassNames("my-0", "me-auto", "text-xl");
         layout.add(appName);
 
         Nav nav = new Nav();
@@ -85,10 +102,10 @@ public class MainLayout extends AppLayout {
         UnorderedList list = new UnorderedList();
         list.addClassNames("flex", "list-none", "m-0", "p-0");
         nav.add(list);
-
+        Button logout = new Button("Log out", e -> securityService.logout());
+        layout.add(logout);
         for (MenuItemInfo menuItem : createMenuItems()) {
             list.add(menuItem);
-
         }
 
         header.add(layout, nav);
@@ -97,12 +114,30 @@ public class MainLayout extends AppLayout {
 
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{ //
-                new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
 
+                new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
+//                new MenuItemInfo("login","la la-user", loginView.class), //
                 new MenuItemInfo("Daftar UKM", "la la-swimmer", DaftarUKMView.class), //
 //                new MenuItemInfo("Daftar UKM", "la la-swimmer", DaftarUKMView.class), //
-
         };
     }
+    private void createHeader() {
+        H1 logo = new H1("Vaadin CRM");
+        logo.addClassNames("text-l", "m-m");
+
+        Button logout = new Button("Log out", e -> securityService.logout());
+
+        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout);
+
+        header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        header.expand(logo);
+        header.setWidth("100%");
+        header.addClassNames("py-0", "px-m");
+
+        addToNavbar(header);
+
+    }
+
 
 }
+

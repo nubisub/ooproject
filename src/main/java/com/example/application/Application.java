@@ -7,6 +7,7 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
@@ -16,7 +17,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * and some desktop browsers.
  *
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 @Theme(value = "pilihukmyuk", variant = Lumo.DARK)
 @PWA(name = "Pilih UKM Yuk", shortName = "Pilih UKM Yuk", offlineResources = {})
 @NpmPackage(value = "line-awesome", version = "1.3.0")

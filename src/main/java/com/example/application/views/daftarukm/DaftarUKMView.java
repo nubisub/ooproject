@@ -24,6 +24,12 @@ import com.example.application.data.db.dbconnection;
 @PageTitle("Daftar UKM")
 @Route(value = "daftarukm", layout = MainLayout.class)
 public class DaftarUKMView extends Div {
+     ComboBox<String> ukmSelect1 = new ComboBox<>("Pilihan Pertama");
+     Aside aside = new Aside();
+    UnorderedList ul = new UnorderedList();
+    Button pay = new Button("Submit", new Icon(VaadinIcon.LOCK));
+
+//    ListItem li = new ListItem();
 
     private static final Set<String> states = new LinkedHashSet<>();
     private static final Set<String> countries = new LinkedHashSet<>();
@@ -83,12 +89,18 @@ public class DaftarUKMView extends Div {
         addClassNames("daftar-ukm-view", "flex", "flex-col", "h-full");
 
         Main content = new Main();
-        content.addClassNames("grid", "gap-xl", "items-start", "justify-center", "max-w-screen-md", "mx-auto", "pb-l",
+        content.addClassNames("grid", "gap-xl", "items-start", "justify-center", "max-w-screen-xl", "mx-auto", "pb-l",
                 "px-l");
 
         content.add(createCheckoutForm());
-        content.add(createAside());
+//        content.add(createAside());
         add(content);
+//        pay button click
+        pay.addClickListener(e -> {
+            content.add(createAside());
+//            disable pay
+            pay.setEnabled(false);
+        });
     }
 
     private Component createCheckoutForm() {
@@ -123,11 +135,11 @@ public class DaftarUKMView extends Div {
 //        TextField name = new TextField("Name");
 //        name.setRequiredIndicatorVisible(true);
 //        name.setPattern("[\\p{L} \\-]+");
-        String nama = dbconnection.getInstance().getMahasiswa();
-        ComboBox<String> ukmSelect1 = new ComboBox<>(nama);
+//        String nama = dbconnection.getInstance().getMahasiswa();
         ukmSelect1.setRequiredIndicatorVisible(true);
         ukmSelect1.addClassNames("mb-s");
         ukmSelect1.setItems(ukm);
+        ukmSelect1.isPreventInvalidInput();
 
         ComboBox<String> ukmSelect2 = new ComboBox<>("Pilihan Kedua");
         ukmSelect2.setRequiredIndicatorVisible(true);
@@ -274,7 +286,7 @@ public class DaftarUKMView extends Div {
 //        Button cancel = new Button("Cancel order");
 //        cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        Button pay = new Button("Submit", new Icon(VaadinIcon.LOCK));
+
         pay.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
         pay.addClassName("submit-button");
         footer.add(pay);
@@ -295,7 +307,10 @@ public class DaftarUKMView extends Div {
     }
 
     private Aside createAside() {
-        Aside aside = new Aside();
+//        get combobox ukmSelect1 value
+
+
+
         aside.addClassNames("bg-contrast-5", "box-border", "p-l", "rounded", "sticky");
         Header headerSection = new Header();
         headerSection.addClassNames("flex", "items-center", "justify-between", "mb-m");
@@ -305,10 +320,8 @@ public class DaftarUKMView extends Div {
         edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         headerSection.add(header, edit);
 
-        UnorderedList ul = new UnorderedList();
         ul.addClassNames("list-none", "m-10", "p-0", "flex", "flex-col", "gap-m");
-
-        ul.add(createListItem("Vanilla cracker",  "$7.00"));
+        ul.add(createListItem("coba",  "$7.00"));
         ul.add(createListItem("Vanilla blueberry cake",  "$8.00"));
         ul.add(createListItem("Vanilla pastry",  "$5.00"));
 
@@ -331,6 +344,22 @@ public class DaftarUKMView extends Div {
         Span priceSpan = new Span(price);
 
         item.add(subSection, priceSpan);
+//        item.getChildren().
+//        get (1).addClassNames("text-s text-secondary")
         return item;
     }
+
+    public ComboBox<String> getUkmSelect1() {
+        return ukmSelect1;
+    }
+
+    public void setUkmSelect1(ComboBox<String> ukmSelect1) {
+        this.ukmSelect1 = ukmSelect1;
+    }
+//    onchange ukmSelect1
+    public void onChangeUkmSelect1(ComboBox<String> ukmSelect1) {
+        System.out.println("ukmSelect1: " + ukmSelect1.getValue());
+    }
+
+
 }
