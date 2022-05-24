@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import java.util.Collection;
+
 
 @EnableWebSecurity
 @Configuration
@@ -54,12 +56,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   @Override
   public UserDetailsService userDetailsService() {
-    UserDetails user = User.withUsername("user")
+    UserDetails user = User.withUsername("user1")
+            .password("{noop}userpass")
+            .roles("USER")
+            .build();
+    UserDetails user1 = User.withUsername("user2")
             .password("{noop}userpass")
             .roles("USER")
             .build();
 
-    return new InMemoryUserDetailsManager(user);
+    UserDetails adminUser =
+            User.withUsername("admin")
+                    .password("{noop}password")
+                    .roles("USER")
+                    .build();
+    Collection<UserDetails> users = new java.util.ArrayList<>();
+    users.add(adminUser);
+    adminUser =
+            User.withUsername("admin1")
+                    .password("{noop}password1")
+                    .roles("USER")
+                    .build();
+    users.add(adminUser);
+    return new InMemoryUserDetailsManager(users);
   }
 
   /**

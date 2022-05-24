@@ -2,6 +2,8 @@ package com.example.application.views;
 
 
 import com.example.application.security.SecurityService;
+//import com.example.application.views.AdminView.GridBasic;
+import com.example.application.views.AdminView.GridBasic;
 import com.example.application.views.daftarukm.DaftarUKMView;
 import com.example.application.views.profile.ProfileView;
 import com.vaadin.flow.component.Component;
@@ -114,11 +116,15 @@ public class MainLayout extends AppLayout {
 
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{ //
+//                if admin or user
+
 
                 new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
 //                new MenuItemInfo("login","la la-user", loginView.class), //
                 new MenuItemInfo("Daftar UKM", "la la-swimmer", DaftarUKMView.class), //
 //                new MenuItemInfo("Daftar UKM", "la la-swimmer", DaftarUKMView.class), //
+                new MenuItemInfo("Grid", "la la-user", GridBasic.class), //
+
         };
     }
     private void createHeader() {

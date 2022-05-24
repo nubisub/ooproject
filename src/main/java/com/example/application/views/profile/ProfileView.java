@@ -29,14 +29,14 @@ import com.vaadin.flow.router.RouteAlias;
 @Uses(Icon.class)
 public class ProfileView extends Div {
 
-    private TextField firstName = new TextField("First name");
-    private TextField lastName = new TextField("Last name");
-    private EmailField email = new EmailField("Email address");
-    private DatePicker dateOfBirth = new DatePicker("Birthday");
-    private PhoneNumberField phone = new PhoneNumberField("Phone number");
-    private TextField occupation = new TextField("Occupation");
+    private TextField firstName = new TextField("Nama");
+    private TextField lastName = new TextField("NIM");
+    private EmailField email = new EmailField("Email");
+    private DatePicker dateOfBirth = new DatePicker("Tanggal Lahir");
+    private PhoneNumberField phone = new PhoneNumberField("Nomor Telepon");
+    private TextField occupation = new TextField("Alamat");
 
-    private Button cancel = new Button("Cancel");
+//    private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
@@ -51,12 +51,12 @@ public class ProfileView extends Div {
         binder.bindInstanceFields(this);
         clearForm();
 
-        cancel.addClickListener(e -> clearForm());
-        save.addClickListener(e -> {
-            personService.update(binder.getBean());
-            Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
-            clearForm();
-        });
+//        cancel.addClickListener(e -> clearForm());
+//        save.addClickListener(e -> {
+//            personService.update(binder.getBean());
+//            Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
+//            clearForm();
+//        });
     }
 
     private void clearForm() {
@@ -64,7 +64,7 @@ public class ProfileView extends Div {
     }
 
     private Component createTitle() {
-        return new H3("Personal information");
+        return new H3("Profile");
     }
 
     private Component createFormLayout() {
@@ -79,7 +79,7 @@ public class ProfileView extends Div {
         buttonLayout.addClassName("button-layout");
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonLayout.add(save);
-        buttonLayout.add(cancel);
+//        buttonLayout.add(cancel);
         return buttonLayout;
     }
 
@@ -93,7 +93,7 @@ public class ProfileView extends Div {
             countryCode.setPlaceholder("Country");
             countryCode.setPattern("\\+\\d*");
             countryCode.setPreventInvalidInput(true);
-            countryCode.setItems("+354", "+91", "+62", "+98", "+964", "+353", "+44", "+972", "+39", "+225");
+            countryCode.setItems("+62");
             countryCode.addCustomValueSetListener(e -> countryCode.setValue(e.getDetail()));
             number.setPattern("\\d*");
             number.setPreventInvalidInput(true);
