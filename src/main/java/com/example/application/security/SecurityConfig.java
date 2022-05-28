@@ -1,5 +1,7 @@
 package com.example.application.security;
 
+import com.example.application.data.postgres.Connect;
+import com.example.data.Account;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import java.sql.Connection;
 import java.util.Collection;
 
 
@@ -22,6 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private static final String LOGIN_FAILURE_URL = "/login?error";
   private static final String LOGIN_URL = "/login";
   private static final String LOGOUT_SUCCESS_URL = "/login";
+
+      Collection<UserDetails> users = new java.util.ArrayList<>();
 
   /**
    * Require login to access internal pages and configure login form.
@@ -53,33 +58,62 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
   }
 
+
   @Bean
   @Override
   public UserDetailsService userDetailsService() {
-    UserDetails user = User.withUsername("user1")
-            .password("{noop}userpass")
-            .roles("USER")
-            .build();
-    UserDetails user1 = User.withUsername("user2")
-            .password("{noop}userpass")
-            .roles("USER")
-            .build();
 
-    UserDetails adminUser =
-            User.withUsername("admin")
-                    .password("{noop}password")
-                    .roles("USER")
-                    .build();
-    Collection<UserDetails> users = new java.util.ArrayList<>();
-    users.add(adminUser);
-    adminUser =
-            User.withUsername("admin1")
-                    .password("{noop}password1")
-                    .roles("USER")
-                    .build();
-    users.add(adminUser);
+    try {
+      Connect connect = Connect.getInstance();
+      Connection connection = connect.getConnection();
+
+      String sql = "SELECT * FROM oop.login";
+      java.sql.Statement statement = connection.createStatement();
+      java.sql.ResultSet resultSet = statement.executeQuery(sql);
+
+      while (resultSet.next()) {
+        String nim = resultSet.getString("nim");
+        String password = resultSet.getString("password");
+        String role = resultSet.getString("role");
+        UserDetails user = User.withUsername(nim)
+                .password("{noop}"+password)
+                .roles(role)
+                .build();
+        System.out.println(user.getPassword());
+        users.add(user);
+      }
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return new InMemoryUserDetailsManager(users);
+
+
+//    UserDetails user = User.withUsername("user1")
+//            .password("{noop}userpass")
+//            .roles("USER")
+//            .build();
+//    UserDetails user1 = User.withUsername("user2")
+//            .password("{noop}userpass")
+//            .roles("USER")
+//            .build();
+//
+//    UserDetails adminUser =
+//            User.withUsername("admin")
+//                    .password("{noop}password")
+//                    .roles("USER")
+//                    .build();
+//    Collection<UserDetails> users = new java.util.ArrayList<>();
+//    users.add(adminUser);
+//    adminUser =
+//            User.withUsername("admin1")
+//                    .password("{noop}password1")
+//                    .roles("USER")
+//                    .build();
+//    users.add(adminUser);
   }
+
 
   /**
    * Allows access to static resources, bypassing Spring Security.
