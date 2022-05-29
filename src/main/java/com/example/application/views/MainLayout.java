@@ -119,20 +119,39 @@ public class MainLayout extends AppLayout {
     private MenuItemInfo[] createMenuItems() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
+        String role = authentication.getAuthorities().toArray()[0].toString();
+        System.out.println(role);
         System.out.println(currentPrincipalName);
+        if (role.equals("ROLE_USER")) {
+            return new MenuItemInfo[]{
+                    new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
 
-
-        return new MenuItemInfo[]{ //
-//                if admin or user
-
-
-                new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
 //                new MenuItemInfo("login","la la-user", loginView.class), //
-                new MenuItemInfo("Daftar UKM", "la la-swimmer", DaftarUKMView.class), //
-//                new MenuItemInfo("Daftar UKM", "la la-swimmer", DaftarUKMView.class), //
-                new MenuItemInfo("Grid", "la la-user", GridBasic.class), //
+                    new MenuItemInfo("Daftar UKM", "la la-swimmer", DaftarUKMView.class), //
+            };
 
-        };
+        }
+        else{
+
+            return new MenuItemInfo[]{
+                    new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
+                    new MenuItemInfo("Grid", "la la-user", GridBasic.class), //
+};
+        }
+
+
+//        return new MenuItemInfo[]{ //
+////                if admin or user
+//
+//
+//
+//                new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
+////                new MenuItemInfo("login","la la-user", loginView.class), //
+//                new MenuItemInfo("Daftar UKM", "la la-swimmer", DaftarUKMView.class), //
+////                new MenuItemInfo("Daftar UKM", "la la-swimmer", DaftarUKMView.class), //
+//                new MenuItemInfo("Grid", "la la-user", GridBasic.class), //
+//
+//        };
     }
     private void createHeader() {
         H1 logo = new H1("Vaadin CRM");

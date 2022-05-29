@@ -15,6 +15,9 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -23,6 +26,7 @@ import java.util.Set;
 
 @PageTitle("Daftar UKM")
 @Route(value = "daftarukm", layout = MainLayout.class)
+//@RolesAllowed("USER")
 public class DaftarUKMView extends Div {
      ComboBox<String> ukmSelect1 = new ComboBox<>("Pilihan Pertama");
      Aside aside = new Aside();

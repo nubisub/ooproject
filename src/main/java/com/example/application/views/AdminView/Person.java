@@ -24,7 +24,7 @@ public class Person {
   private Date birthday;
 
   @Nonnull
-  private Integer id;
+  private String id;
 
   @Nonnull
   private boolean subscriber;
@@ -49,9 +49,10 @@ public class Person {
   @Nonnull
   private String status;
 
-  public Person(String nicolaus_copernicus, int i) {
+  public Person(String nicolaus_copernicus, String i, String status) {
     this.firstName = nicolaus_copernicus;
     this.id = i;
+    this.status = status;
   }
 
   public String getFirstName() {
@@ -130,18 +131,15 @@ public class Person {
     this.address = address;
   }
 
-  public Integer getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  @Override
-  public int hashCode() {
-    return id;
-  }
+
 
   @Override
   public boolean equals(Object obj) {

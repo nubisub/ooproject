@@ -11,5 +11,7 @@
       --lumo-font-size-s: 1rem;
       --lumo-font-size-xs: 0.875rem;
       --lumo-font-size-xxs: 0.8125rem;
-
     }
+vaadin-grid-cell-content{
+      margin-left: 20px;
+}

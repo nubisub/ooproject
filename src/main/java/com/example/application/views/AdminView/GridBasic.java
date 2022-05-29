@@ -1,53 +1,154 @@
 package com.example.application.views.AdminView;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 //import com.vaadin.demo.domain.Person;
+import com.example.application.data.postgres.Connect;
 import com.example.application.views.MainLayout;
+import com.example.application.views.profile.ProfileView;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.function.SerializableBiConsumer;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.w3c.dom.events.Event;
+
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 
 import static com.vaadin.flow.dom.ElementFactory.createListItem;
+import static com.vaadin.flow.dom.ElementFactory.createRouterLink;
 //import  com.example.application.data.service
 //import com.vaadin.demo.domain.DataService;
 
 //@Route("grid-basic")
-@Route(value = "grid-basic", layout = MainLayout.class)
+//@RolesAllowed("ROLE_admin")
 
+@Route(value = "grid-basic", layout = MainLayout.class)
+@RolesAllowed({"ROLE_admin"})
+//@RouteAlias(value = "", layout = MainLayout.class)
+@PermitAll
+//@Secured("ROLE_admin")
 public class GridBasic extends Div {
     Grid<Person> grid = new Grid<>(Person.class, false);
     Main Content = new Main();
+    List<Person> people = new ArrayList<>();
+
 
 
     public GridBasic() {
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        String role = authentication.getAuthorities().toArray()[0].toString();
+//        if role != admin
+        if (!role.equals("ROLE_admin")) {
+//            before enter listener
+            UI.getCurrent().getPage().executeJs("window.location.href = '/'");
+            return;
+        }
+
         Grid<Person> grid = new Grid<>(Person.class, false);
-//        grid.addColumn(Person::getFirstName).setHeader("First name");
-        List<Person> people = Arrays.asList(
-                new Person("Nicolaus Copernicus", 1543),
-                new Person("Galileo Galilei", 1564),
-                new Person("Johannes Kepler", 1571));
-        grid.setItems(people);
-        grid.addColumn(Person::getFirstName).setHeader("Name");
-        grid.addColumn(Person::getId)
-                .setHeader("Year of birth");
-//        Button button = new Button("Click me");
-        grid.addComponentColumn(person -> {
-                    Button editButton = new Button("Edit");
-            editButton.addClickListener(e -> {
-              System.out.println(person.getFirstName());
-            });
-                    return editButton;
-                });
-//
-        add(grid);
+
+
+            try {
+                Connect connect = Connect.getInstance();
+                Connection connection = connect.getConnection();
+                String sql = "SELECT * FROM oop.\"Mahasiswa\"";
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+                while (resultSet.next()) {
+                    people.add(new Person(resultSet.getString("nama"),
+                            resultSet.getString("nim"), resultSet.getString("status")));
+                }
+
+
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+                grid.addClassNames("justify-center");
+                grid.setItems(people);
+                grid.addColumn(Person::getFirstName).setHeader("Nama").setWidth("80px");
+                grid.addColumn(Person::getId)
+                .setHeader("NIM");
+//              Button button = new Button("Click me");
+                grid.addComponentColumn(person -> {
+
+                    Div div = new Div();
+                    Button terimaButton = new Button("Terima");
+                    Button tolakButton = new Button("Tolak");
+                    tolakButton.addClassNames("bg-error","ml-s","text-error-contrast");
+                    terimaButton.addClassNames("bg-success","ml-s","text-success-contrast");
+                    div.addClassNames("flex","justify-center");
+
+                    Span denied = new Span(" Ditolak ");
+                    denied.getElement().getThemeList().add("badge error pill");
+                    denied.setWidth("100px");
+
+                    Span confirmed = new Span("Diterima");
+                    confirmed.getElement().getThemeList().add("badge success pill");
+                    confirmed.setWidth("100px");
+
+                    if (person.getStatus().equals("0")) {
+                        div.add(terimaButton);
+                        div.add(tolakButton);
+                    }
+                    terimaButton.addClickListener(event -> {
+                        div.removeAll();
+                        div.add(confirmed);
+                    });
+                    tolakButton.addClickListener(event -> {
+                        div.removeAll();
+                        div.add(denied);
+                            });
+//                    if (person.getStatus().equals("0")) {
+//                        Button editButton = new Button("Terima");
+//                        Button tolakButton = new Button("Tolak")
+//                    } else {
+//                        Button editButton = new Button("Tolak");
+//                    }
+//                    editButton.addClickListener(e -> {
+//                    System.out.println(person.getFirstName());
+//                        System.out.println(person.getStatus());
+//                });
+                    return div;
+                }).setHeader("Status");
+
+        TextField searchField = new TextField();
+        searchField.setWidth("30%");
+        searchField.setPlaceholder("Search");
+        searchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
+        searchField.setValueChangeMode(ValueChangeMode.EAGER);
+
+
+
+        searchField.addClassNames("search-field","mb-m","mt-l");
+
+        Div div = new Div();
+        div.addClassNames("wrapper", "m-auto");
+        div.setWidth("80%");
+        div.add(searchField, grid);
+        add(div);
     }
 //    private static ComponentRenderer<Button> createStatusComponentRenderer() {
 //        return new ComponentRenderer<>(Button::new);
