@@ -1,11 +1,14 @@
 package com.example.application.views.daftarukm;
 
+import com.example.application.data.postgres.DaftarUKM;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.combobox.GeneratedVaadinComboBox;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -20,6 +23,7 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 //import dbconnection.DBConnection;
 //import com.example.application.data.db.dbconnection;
@@ -29,7 +33,14 @@ import java.util.Set;
 //@RolesAllowed("USER")
 public class DaftarUKMView extends Div {
      ComboBox<String> ukmSelect1 = new ComboBox<>("Pilihan Pertama");
-     Aside aside = new Aside();
+     ComboBox<String> ukmSelect2 = new ComboBox<>("Pilihan Kedua");
+     ComboBox<String> ukmSelect3 = new ComboBox<>("Pilihan Ketiga");
+     ComboBox<String> ukmSelect4 = new ComboBox<>("Pilihan Keempat");
+     ComboBox<String> ukmSelect5 = new ComboBox<>("Pilihan Kelima");
+    Span confirmed = new Span("Diterima");
+    Span rejected = new Span("Ditolak");
+
+    Aside aside = new Aside();
     UnorderedList ul = new UnorderedList();
     Button pay = new Button("Submit", new Icon(VaadinIcon.LOCK));
 
@@ -38,9 +49,14 @@ public class DaftarUKMView extends Div {
     private static final Set<String> states = new LinkedHashSet<>();
     private static final Set<String> countries = new LinkedHashSet<>();
     private static final Set<String> ukm = new LinkedHashSet<>();
+    static DaftarUKM daftarukm = new DaftarUKM();
 //    dbconnection db = new dbconnection();
     static {
-        ukm.addAll(Arrays.asList("UKM 1", "UKM 2", "UKM 3", "UKM 4", "UKM 5", "UKM 6", "UKM 7", "UKM 8", "UKM 9", "UKM 10"));
+//    System.out.println(daftarukm.getDaftarUKMCollection());
+
+//    System.out.println(daftarukm.getDaftarUKMCollection());
+//        ukm.addAll(daftarukm.getDaftarUKMList());
+    ukm.addAll(daftarukm.getDaftarUKM());
         states.addAll(Arrays.asList("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
                 "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas",
                 "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
@@ -93,12 +109,14 @@ public class DaftarUKMView extends Div {
         addClassNames("daftar-ukm-view", "flex", "flex-col", "h-full");
 
         Main content = new Main();
-        content.addClassNames("grid", "gap-xl", "items-start", "justify-center", "max-w-screen-xl", "mx-auto", "pb-l",
-                "px-l");
+        content.addClassNames("grid", "gap-xl", "items-start", "justify-center", "max-w-screen-xl", "pb-l","px-s");
 
         content.add(createCheckoutForm());
 //        content.add(createAside());
         add(content);
+        if (ukmSelect1.getValue() == null) {
+            pay.setEnabled(false);
+        }
 //        pay button click
         pay.addClickListener(e -> {
             content.add(createAside());
@@ -144,23 +162,30 @@ public class DaftarUKMView extends Div {
         ukmSelect1.addClassNames("mb-s");
         ukmSelect1.setItems(ukm);
         ukmSelect1.isPreventInvalidInput();
+        ukmSelect1.addValueChangeListener(e -> {
+            if (ukmSelect1.getValue() != null) {
+                pay.setEnabled(true);
 
-        ComboBox<String> ukmSelect2 = new ComboBox<>("Pilihan Kedua");
+            }
+                });
+
+
+//        ComboBox<String> ukmSelect2 = new ComboBox<>("Pilihan Kedua");
         ukmSelect2.setRequiredIndicatorVisible(true);
         ukmSelect2.addClassNames("mb-s");
         ukmSelect2.setItems(ukm);
 
-        ComboBox<String> ukmSelect3 = new ComboBox<>("Pilihan Ketiga");
+//        ComboBox<String> ukmSelect3 = new ComboBox<>("Pilihan Ketiga");
         ukmSelect3.setRequiredIndicatorVisible(true);
         ukmSelect3.addClassNames("mb-s");
         ukmSelect3.setItems(ukm);
 
-        ComboBox<String> ukmSelect4 = new ComboBox<>("Pilihan Keempat");
+//        ComboBox<String> ukmSelect4 = new ComboBox<>("Pilihan Keempat");
         ukmSelect4.setRequiredIndicatorVisible(true);
         ukmSelect4.addClassNames("mb-s");
         ukmSelect4.setItems(ukm);
 
-        ComboBox<String> ukmSelect5 = new ComboBox<>("Pilihan Kelima");
+//        ComboBox<String> ukmSelect5 = new ComboBox<>("Pilihan Kelima");
         ukmSelect5.setRequiredIndicatorVisible(true);
         ukmSelect5.addClassNames("mb-s");
         ukmSelect5.setItems(ukm);
@@ -316,24 +341,73 @@ public class DaftarUKMView extends Div {
 
 
         aside.addClassNames("bg-contrast-5", "box-border", "p-l", "rounded", "sticky");
+        aside.setMinWidth("350px");
         Header headerSection = new Header();
         headerSection.addClassNames("flex", "items-center", "justify-between", "mb-m");
-        H3 header = new H3("Order");
+        H3 header = new H3("Status Pendaftaran");
         header.addClassNames("m-0");
-        Button edit = new Button("Edit");
-        edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        headerSection.add(header, edit);
+//        Button edit = new Button("Edit");
+//        edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        headerSection.add(header);
 
+
+        confirmed.getElement().getThemeList().add("badge success");
+        confirmed.setWidth("120px");
+
+        rejected.getElement().getThemeList().add("badge error");
+        rejected.setWidth("120px");
+
+//        Span pending = new Span("Dalam Proses");
         ul.addClassNames("list-none", "m-10", "p-0", "flex", "flex-col", "gap-m");
-        ul.add(createListItem("coba",  "$7.00"));
-        ul.add(createListItem("Vanilla blueberry cake",  "$8.00"));
-        ul.add(createListItem("Vanilla pastry",  "$5.00"));
+
+
+        if (ukmSelect1.getValue() != null) {
+            Span pending = new Span("Dalam Proses");
+            pending.getElement().getThemeList().add("badge");
+            pending.setWidth("120px");
+            ul.add(createListItem(ukmSelect1.getValue(),  pending));
+        }
+        if (ukmSelect2.getValue() != null && ukmSelect2.getValue() != ukmSelect1.getValue()) {
+            Span pending = new Span("Dalam Proses");
+            pending.getElement().getThemeList().add("badge");
+            pending.setWidth("120px");
+            ul.add(createListItem(ukmSelect2.getValue(),  pending));
+        }
+        if (ukmSelect3.getValue() != null && ukmSelect3.getValue() != ukmSelect1.getValue() && ukmSelect3.getValue() != ukmSelect2.getValue()) {
+            Span pending = new Span("Dalam Proses");
+            pending.getElement().getThemeList().add("badge");
+            pending.setWidth("120px");
+            ul.add(createListItem(ukmSelect3.getValue(),  pending));
+        }
+        if (ukmSelect4.getValue() != null && ukmSelect4.getValue() != ukmSelect1.getValue() && ukmSelect4.getValue() != ukmSelect2.getValue() && ukmSelect4.getValue() != ukmSelect3.getValue()) {
+            Span pending = new Span("Dalam Proses");
+            pending.getElement().getThemeList().add("badge");
+            pending.setWidth("120px");
+            ul.add(createListItem(ukmSelect4.getValue(),  pending));
+        }
+        if (ukmSelect5.getValue() != null && ukmSelect5.getValue() != ukmSelect1.getValue() && ukmSelect5.getValue() != ukmSelect2.getValue() && ukmSelect5.getValue() != ukmSelect3.getValue() && ukmSelect5.getValue() != ukmSelect4.getValue()) {
+            Span pending = new Span("Dalam Proses");
+            pending.getElement().getThemeList().add("badge");
+            pending.setWidth("120px");
+            ul.add(createListItem(ukmSelect5.getValue(),  pending));
+        }
+        ukmSelect1.setEnabled(false);
+        ukmSelect2.setEnabled(false);
+        ukmSelect3.setEnabled(false);
+        ukmSelect4.setEnabled(false);
+        ukmSelect5.setEnabled(false);
+
+
+
+//        ul.add(createListItem("Vanilla blueberry cake",  "$8.00"));
+//        ul.add(createListItem("Vanilla pastry",  "$5.00"));
 
         aside.add(headerSection, ul);
+        ukmSelect1.setEnabled(false);
         return aside;
     }
 
-    private ListItem createListItem(String primary, String price) {
+    private ListItem createListItem(String primary, Span price) {
         ListItem item = new ListItem();
         item.addClassNames("flex", "justify-between");
 
@@ -345,9 +419,9 @@ public class DaftarUKMView extends Div {
 //        secondarySpan.addClassNames("text-s text-secondary");
 //        subSection.add(secondarySpan);
 
-        Span priceSpan = new Span(price);
+//        Span priceSpan = new Span(price);
 
-        item.add(subSection, priceSpan);
+        item.add(subSection, price);
 //        item.getChildren().
 //        get (1).addClassNames("text-s text-secondary")
         return item;

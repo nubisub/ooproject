@@ -1,4 +1,5 @@
 # Pilih UKM Yuk
+[![wakatime](https://wakatime.com/badge/user/ab053e7a-29dd-45e7-8ba6-5eaad830906f/project/1e23aed1-47d4-45be-af21-c2e19b9da29b.svg)](https://wakatime.com/badge/user/ab053e7a-29dd-45e7-8ba6-5eaad830906f/project/1e23aed1-47d4-45be-af21-c2e19b9da29b)
 
 This project can be used as a starting point to create your own Vaadin application with Spring Boot.
 It contains all the necessary configuration and some placeholder files to get you started.
@@ -22,6 +23,9 @@ ready to be deployed. The file can be found in the `target` folder after the bui
 
 Once the JAR file is built, you can run it using
 `java -jar target/pilihukmyuk-1.0-SNAPSHOT.jar`
+
+Heroku Deploy
+`heroku deploy:jar target/pilihukmyuk-1.0-SNAPSHOT.jar -a myproject666`
 
 ## Project structure
 
