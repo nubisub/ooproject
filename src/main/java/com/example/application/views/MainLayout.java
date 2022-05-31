@@ -1,6 +1,7 @@
 package com.example.application.views;
 
 
+import com.example.application.data.postgres.Account;
 import com.example.application.security.SecurityService;
 //import com.example.application.views.AdminView.GridBasic;
 import com.example.application.views.AdminView.GridBasic;
@@ -20,18 +21,15 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.html.UnorderedList;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import javax.swing.text.html.ListView;
 
 /**
  * The main view is a top-level placeholder for other views.
  */
 public class MainLayout extends AppLayout {
+
     private final SecurityService securityService;
     /**
      * A simple navigation item component, based on ListItem element.
@@ -78,6 +76,8 @@ public class MainLayout extends AppLayout {
 
     public MainLayout(SecurityService securityService) {
         this.securityService = securityService;
+
+
 //        createHeader();
 //        createDrawer();
 //        redirect to login page
@@ -117,6 +117,9 @@ public class MainLayout extends AppLayout {
     }
 
     private MenuItemInfo[] createMenuItems() {
+        Account account = Account.getInstance();
+//        Login login = new Login(nim);
+//        Account account = new Account(nim);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         String role = authentication.getAuthorities().toArray()[0].toString();
@@ -135,7 +138,7 @@ public class MainLayout extends AppLayout {
 
             return new MenuItemInfo[]{
                     new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
-                    new MenuItemInfo("Grid", "la la-swimmer", GridBasic.class), //
+                    new MenuItemInfo("Admin", "la la-swimmer", GridBasic.class), //
 };
         }
 

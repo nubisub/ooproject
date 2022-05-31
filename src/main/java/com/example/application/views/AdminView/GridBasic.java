@@ -34,6 +34,7 @@ import org.w3c.dom.events.Event;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 
+
 import static com.vaadin.flow.dom.ElementFactory.createListItem;
 import static com.vaadin.flow.dom.ElementFactory.createRouterLink;
 //import  com.example.application.data.service
@@ -42,7 +43,7 @@ import static com.vaadin.flow.dom.ElementFactory.createRouterLink;
 //@Route("grid-basic")
 //@RolesAllowed("ROLE_admin")
 
-@Route(value = "grid-basic", layout = MainLayout.class)
+@Route(value = "Admin", layout = MainLayout.class)
 @RolesAllowed({"ROLE_admin"})
 //@RouteAlias(value = "", layout = MainLayout.class)
 @PermitAll
@@ -111,6 +112,8 @@ public class GridBasic extends Div {
                     if (person.getStatus().equals("0")) {
                         div.add(terimaButton);
                         div.add(tolakButton);
+                    } else if (person.getStatus().equals("1")) {
+                        div.add(confirmed);
                     }
                     terimaButton.addClickListener(event -> {
                         div.removeAll();

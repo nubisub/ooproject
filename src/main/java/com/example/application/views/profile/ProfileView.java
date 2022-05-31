@@ -1,6 +1,7 @@
 package com.example.application.views.profile;
 
 import com.example.application.data.entity.SamplePerson;
+import com.example.application.data.postgres.Account;
 import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
@@ -28,9 +29,8 @@ import com.vaadin.flow.router.RouteAlias;
 @RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
 public class ProfileView extends Div {
-
     private TextField firstName = new TextField("Nama");
-    private TextField lastName = new TextField("NIM");
+    private TextField nim = new TextField("NIM");
     private EmailField email = new EmailField("Email");
     private DatePicker dateOfBirth = new DatePicker("Tanggal Lahir");
     private PhoneNumberField phone = new PhoneNumberField("Nomor Telepon");
@@ -40,6 +40,7 @@ public class ProfileView extends Div {
     private Button save = new Button("Save");
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
+    Account account;
 
     public ProfileView(SamplePersonService personService) {
         addClassName("profile-view");
@@ -70,7 +71,11 @@ public class ProfileView extends Div {
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
         email.setErrorMessage("Please enter a valid email address");
-        formLayout.add(firstName, lastName, dateOfBirth, phone, email, occupation);
+        nim.setEnabled(false);
+//        nim.setValue(akun.getNim());
+        Account account = Account.getInstance();
+        nim.setValue(account.getNim());
+        formLayout.add(firstName, nim, dateOfBirth, phone, email, occupation);
         return formLayout;
     }
 
