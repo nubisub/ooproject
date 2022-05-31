@@ -135,7 +135,7 @@ public class MainLayout extends AppLayout {
 
             return new MenuItemInfo[]{
                     new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
-                    new MenuItemInfo("Grid", "la la-user", GridBasic.class), //
+                    new MenuItemInfo("Grid", "la la-swimmer", GridBasic.class), //
 };
         }
 

@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //import com.vaadin.demo.domain.Person;
 import com.example.application.data.postgres.Connect;
@@ -47,11 +48,9 @@ import static com.vaadin.flow.dom.ElementFactory.createRouterLink;
 @PermitAll
 //@Secured("ROLE_admin")
 public class GridBasic extends Div {
-    Grid<Person> grid = new Grid<>(Person.class, false);
+//    Grid<Person> grid = new Grid<>(Person.class, false);
     Main Content = new Main();
     List<Person> people = new ArrayList<>();
-
-
 
     public GridBasic() {
 
@@ -67,7 +66,6 @@ public class GridBasic extends Div {
         }
 
         Grid<Person> grid = new Grid<>(Person.class, false);
-
 
             try {
                 Connect connect = Connect.getInstance();
@@ -98,16 +96,17 @@ public class GridBasic extends Div {
                     Button terimaButton = new Button("Terima");
                     Button tolakButton = new Button("Tolak");
                     tolakButton.addClassNames("bg-error","ml-s","text-error-contrast");
-                    terimaButton.addClassNames("bg-success","ml-s","text-success-contrast");
-                    div.addClassNames("flex","justify-center");
+                    terimaButton.addClassNames("bg-success","text-success-contrast");
 
                     Span denied = new Span(" Ditolak ");
                     denied.getElement().getThemeList().add("badge error pill");
                     denied.setWidth("100px");
+                    denied.addClassNames("my-s");
 
                     Span confirmed = new Span("Diterima");
                     confirmed.getElement().getThemeList().add("badge success pill");
                     confirmed.setWidth("100px");
+                    confirmed.addClassNames("my-s");
 
                     if (person.getStatus().equals("0")) {
                         div.add(terimaButton);
@@ -139,6 +138,20 @@ public class GridBasic extends Div {
         searchField.setPlaceholder("Search");
         searchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
         searchField.setValueChangeMode(ValueChangeMode.EAGER);
+        searchField.addValueChangeListener(e -> {
+//            grid.setItems(people.stream().filter(person -> person.getFirstName().toLowerCase().contains(e.getValue().toLowerCase())).collect(Collectors.toList()));
+//            filter by firstnama and nim
+            List<Person> peoplefilter = new ArrayList<>();
+            for (Person person : people) {
+                if (person.getFirstName().toLowerCase().contains(e.getValue().toLowerCase()) || person.getId().toLowerCase().contains(e.getValue().toLowerCase())) {
+                    peoplefilter.add(person);
+                    }
+            }
+            grid.setItems(peoplefilter);
+
+
+        });
+
 
 
 

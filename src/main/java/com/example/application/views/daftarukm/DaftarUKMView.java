@@ -109,7 +109,7 @@ public class DaftarUKMView extends Div {
         addClassNames("daftar-ukm-view", "flex", "flex-col", "h-full");
 
         Main content = new Main();
-        content.addClassNames("grid", "gap-xl", "items-start", "justify-center", "max-w-screen-xl", "pb-l","px-s");
+        content.addClassNames("grid", "gap-xl", "items-start", "justify-center", "max-w-screen-xl", "pb-l","px-l");
 
         content.add(createCheckoutForm());
 //        content.add(createAside());
