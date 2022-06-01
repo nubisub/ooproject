@@ -18,6 +18,12 @@ public class Account {
     private String phone;
     private String alamat;
     private LocalDate tanggalLahir;
+    private String ukm1;
+    private String ukm2;
+    private String ukm3;
+    private String ukm4;
+    private String ukm5;
+
 
     public Account(String nim) {
         this.nim = nim;
@@ -146,5 +152,45 @@ public class Account {
 
     public void setTanggalLahir(String tanggalLahir) {
         this.tanggalLahir = LocalDate.parse(tanggalLahir);
+    }
+
+    public String getUkm1() {
+        return ukm1;
+    }
+
+    public void setUkm1(String ukm1) {
+        this.ukm1 = ukm1;
+    }
+
+    public String getUkm2() {
+        return ukm2;
+    }
+
+    public void setUkm2(String ukm2) {
+        this.ukm2 = ukm2;
+    }
+
+    public String getUkm3() {
+        return ukm3;
+    }
+
+    public void setUkm3(String ukm3) {
+        this.ukm3 = ukm3;
+    }
+
+    public String getUkm4() {
+        return ukm4;
+    }
+
+    public void setUkm4(String ukm4) {
+        this.ukm4 = ukm4;
+    }
+
+    public String getUkm5() {
+        return ukm5;
+    }
+
+    public void setUkm5(String ukm5) {
+        this.ukm5 = ukm5;
     }
 }

@@ -34,43 +34,19 @@ import java.time.LocalDate;
 public class ProfileView extends Div {
     TextField nama = new TextField("Nama");
     TextField nim = new TextField("NIM");
+    private static TextField number = new TextField();
 
-    PhoneNumberField phone = new PhoneNumberField("Nomor Telepon");
+    public PhoneNumberField phone = new PhoneNumberField("Nomor Telepon");
+
+    public TextField alamat = new TextField("Alamat");
 
     private Button save = new Button("Save");
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
-    Account account;
 
     public ProfileView(SamplePersonService personService) {
 
-        save.addClickListener(event -> {
-            Dialog dialog = new Dialog();
-            dialog.setMinWidth("370px");
 
-            H4 title = new H4("Update Profile");
-            title.addClassNames("mb-m","mt-s");
-            Span content = new Span("Are you sure you want to save ?");
-            Button confirm = new Button("Confirm");
-            Button cancel = new Button("Cancel");
-            confirm.addClassNames("bg-primary","text-primary-contrast");
-            cancel.addClassNames("bg-transparent","text-error");
-            Div header = new Div(title, content);
-            Div footer = new Div(cancel, confirm);
-            header.addClassName("mb-s");
-            footer.addClassNames("flex","gap-s", "mt-l");
-            footer.addClassNames("justify-end", "align-center");
-            dialog.add(header, footer);
-            dialog.open();
-            cancel.addClickListener(event1 -> dialog.close());
-            confirm.addClickListener(event1 -> {
-                Notification notification = Notification.show("Data berhasil disimpan", 3000, Notification.Position.BOTTOM_START);
-                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                dialog.close();
-                    });
-            add(dialog);
-
-        });
 
         addClassName("profile-view");
 
@@ -95,8 +71,6 @@ public class ProfileView extends Div {
         EmailField email = new EmailField("Email");
         DatePicker dateOfBirth = new DatePicker("Tanggal Lahir");
         email.setErrorMessage("Please enter a valid email address");
-        TextField alamat = new TextField("Alamat");
-
         nim.setEnabled(false);
 //        nim.setValue(akun.getNim());
         Account account = Account.getInstance();
@@ -104,9 +78,44 @@ public class ProfileView extends Div {
         nama.setValue(account.getNama());
         alamat.setValue(account.getAlamat());
         email.setValue(account.getEmail());
+        number.setValue(account.getPhone());
+
         dateOfBirth.setValue(account.getTanggalLahir());
+        save.addClickListener(event -> {
+            Dialog dialog = new Dialog();
+            dialog.setMinWidth("370px");
 
+            H4 title = new H4("Update Profile");
+            title.addClassNames("mb-m","mt-s");
+            Span content = new Span("Are you sure you want to save ?");
+            Button confirm = new Button("Confirm");
+            Button cancel = new Button("Cancel");
+            confirm.addClassNames("bg-primary","text-primary-contrast");
+            cancel.addClassNames("bg-transparent","text-error");
+            Div header = new Div(title, content);
+            Div footer = new Div(cancel, confirm);
+            header.addClassName("mb-s");
+            footer.addClassNames("flex","gap-s", "mt-l");
+            footer.addClassNames("justify-end", "align-center");
+            dialog.add(header, footer);
+            dialog.open();
+            cancel.addClickListener(event1 -> dialog.close());
+            confirm.addClickListener(event1 -> {
+                Notification notification = Notification.show("Data berhasil disimpan", 3000, Notification.Position.BOTTOM_START);
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+//                Account account = Account.getInstance();
+                account.setNama(nama.getValue());
+//                account.setNim(nim.getValue());
+                account.setPhone(number.getValue());
+                account.setAlamat(alamat.getValue());
+                account.setEmail(email.getValue());
+                account.setTanggalLahir(String.valueOf(dateOfBirth.getValue()));
 
+                dialog.close();
+            });
+            add(dialog);
+
+        });
 
         formLayout.add(nama, nim, dateOfBirth, phone, email, alamat);
         return formLayout;
@@ -122,12 +131,10 @@ public class ProfileView extends Div {
 
     private static class PhoneNumberField extends CustomField<String> {
         private ComboBox<String> countryCode = new ComboBox<>();
-        private TextField number = new TextField();
 
         public PhoneNumberField(String label) {
             Account account = Account.getInstance();
 
-            number.setValue(account.getPhone());
             setLabel(label);
             countryCode.setWidth("120px");
             countryCode.setPlaceholder("Country");

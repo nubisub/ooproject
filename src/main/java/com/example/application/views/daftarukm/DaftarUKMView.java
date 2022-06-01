@@ -1,5 +1,6 @@
 package com.example.application.views.daftarukm;
 
+import com.example.application.data.postgres.Account;
 import com.example.application.data.postgres.DaftarUKM;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
@@ -23,6 +24,7 @@ import java.util.Set;
 @Route(value = "daftarukm", layout = MainLayout.class)
 //@RolesAllowed("USER")
 public class DaftarUKMView extends Div {
+    Account account = Account.getInstance();
      ComboBox<String> ukmSelect1 = new ComboBox<>("Pilihan Pertama");
      ComboBox<String> ukmSelect2 = new ComboBox<>("Pilihan Kedua");
      ComboBox<String> ukmSelect3 = new ComboBox<>("Pilihan Ketiga");
@@ -110,10 +112,11 @@ public class DaftarUKMView extends Div {
         ukmSelect1.addClassNames("mb-s");
         ukmSelect1.setItems(ukm);
         ukmSelect1.isPreventInvalidInput();
+        ukmSelect1.setValue(account.getUkm1());
         ukmSelect1.addValueChangeListener(e -> {
             if (ukmSelect1.getValue() != null) {
                 pay.setEnabled(true);
-
+                account.setUkm1(ukmSelect1.getValue());
             }
                 });
 

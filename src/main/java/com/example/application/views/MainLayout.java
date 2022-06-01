@@ -2,7 +2,7 @@ package com.example.application.views;
 
 import com.example.application.data.postgres.Account;
 import com.example.application.security.SecurityService;
-import com.example.application.views.AdminView.GridBasic;
+import com.example.application.views.AdminView.AdminView;
 import com.example.application.views.daftarukm.DaftarUKMView;
 import com.example.application.views.profile.ProfileView;
 import com.vaadin.flow.component.Component;
@@ -106,7 +106,7 @@ public class MainLayout extends AppLayout {
 
             return new MenuItemInfo[]{
                     new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
-                    new MenuItemInfo("Admin", "la la-swimmer", GridBasic.class), //
+                    new MenuItemInfo("Admin", "la la-swimmer", AdminView.class), //
             };
         }
     }

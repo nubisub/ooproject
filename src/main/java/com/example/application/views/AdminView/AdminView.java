@@ -29,11 +29,11 @@ import javax.annotation.security.RolesAllowed;
 @Route(value = "Admin", layout = MainLayout.class)
 @RolesAllowed({"ROLE_admin"})
 @PermitAll
-public class GridBasic extends Div {
+public class AdminView extends Div {
 //    Main Content = new Main();
     List<Person> people = new ArrayList<>();
 
-    public GridBasic() {
+    public AdminView() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String role = authentication.getAuthorities().toArray()[0].toString();
         if (!role.equals("ROLE_admin")) {
