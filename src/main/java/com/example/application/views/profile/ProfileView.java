@@ -11,11 +11,12 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -24,25 +25,53 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
+import java.time.LocalDate;
+
 @PageTitle("Profile")
 @Route(value = "profile", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
 public class ProfileView extends Div {
-    private TextField firstName = new TextField("Nama");
-    private TextField nim = new TextField("NIM");
-    private EmailField email = new EmailField("Email");
-    private DatePicker dateOfBirth = new DatePicker("Tanggal Lahir");
-    private PhoneNumberField phone = new PhoneNumberField("Nomor Telepon");
-    private TextField occupation = new TextField("Alamat");
+    TextField nama = new TextField("Nama");
+    TextField nim = new TextField("NIM");
 
-//    private Button cancel = new Button("Cancel");
+    PhoneNumberField phone = new PhoneNumberField("Nomor Telepon");
+
     private Button save = new Button("Save");
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
     Account account;
 
     public ProfileView(SamplePersonService personService) {
+
+        save.addClickListener(event -> {
+            Dialog dialog = new Dialog();
+            dialog.setMinWidth("370px");
+
+            H4 title = new H4("Update Profile");
+            title.addClassNames("mb-m","mt-s");
+            Span content = new Span("Are you sure you want to save ?");
+            Button confirm = new Button("Confirm");
+            Button cancel = new Button("Cancel");
+            confirm.addClassNames("bg-primary","text-primary-contrast");
+            cancel.addClassNames("bg-transparent","text-error");
+            Div header = new Div(title, content);
+            Div footer = new Div(cancel, confirm);
+            header.addClassName("mb-s");
+            footer.addClassNames("flex","gap-s", "mt-l");
+            footer.addClassNames("justify-end", "align-center");
+            dialog.add(header, footer);
+            dialog.open();
+            cancel.addClickListener(event1 -> dialog.close());
+            confirm.addClickListener(event1 -> {
+                Notification notification = Notification.show("Data berhasil disimpan", 3000, Notification.Position.BOTTOM_START);
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                dialog.close();
+                    });
+            add(dialog);
+
+        });
+
         addClassName("profile-view");
 
         add(createTitle());
@@ -51,13 +80,6 @@ public class ProfileView extends Div {
 
         binder.bindInstanceFields(this);
         clearForm();
-
-//        cancel.addClickListener(e -> clearForm());
-//        save.addClickListener(e -> {
-//            personService.update(binder.getBean());
-//            Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
-//            clearForm();
-//        });
     }
 
     private void clearForm() {
@@ -70,12 +92,23 @@ public class ProfileView extends Div {
 
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
+        EmailField email = new EmailField("Email");
+        DatePicker dateOfBirth = new DatePicker("Tanggal Lahir");
         email.setErrorMessage("Please enter a valid email address");
+        TextField alamat = new TextField("Alamat");
+
         nim.setEnabled(false);
 //        nim.setValue(akun.getNim());
         Account account = Account.getInstance();
         nim.setValue(account.getNim());
-        formLayout.add(firstName, nim, dateOfBirth, phone, email, occupation);
+        nama.setValue(account.getNama());
+        alamat.setValue(account.getAlamat());
+        email.setValue(account.getEmail());
+        dateOfBirth.setValue(account.getTanggalLahir());
+
+
+
+        formLayout.add(nama, nim, dateOfBirth, phone, email, alamat);
         return formLayout;
     }
 
@@ -84,7 +117,6 @@ public class ProfileView extends Div {
         buttonLayout.addClassName("button-layout");
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonLayout.add(save);
-//        buttonLayout.add(cancel);
         return buttonLayout;
     }
 
@@ -93,6 +125,9 @@ public class ProfileView extends Div {
         private TextField number = new TextField();
 
         public PhoneNumberField(String label) {
+            Account account = Account.getInstance();
+
+            number.setValue(account.getPhone());
             setLabel(label);
             countryCode.setWidth("120px");
             countryCode.setPlaceholder("Country");
@@ -102,6 +137,7 @@ public class ProfileView extends Div {
             countryCode.addCustomValueSetListener(e -> countryCode.setValue(e.getDetail()));
             number.setPattern("\\d*");
             number.setPreventInvalidInput(true);
+            countryCode.setValue("+62");
             HorizontalLayout layout = new HorizontalLayout(countryCode, number);
             layout.setFlexGrow(1.0, number);
             add(layout);
@@ -131,5 +167,4 @@ public class ProfileView extends Div {
             }
         }
     }
-
 }

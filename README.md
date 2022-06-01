@@ -16,7 +16,7 @@ IDEs](https://vaadin.com/docs/latest/flow/guide/step-by-step/importing) (Eclipse
 
 ## Deploying to Production
 
-To create a production build, call `mvnw clean package -Pproduction` (Windows),
+To create a production build, call `mvn clean package -Pproduction` (Windows),
 or `./mvnw clean package -Pproduction` (Mac & Linux).
 This will build a JAR file with all the dependencies and front-end resources,
 ready to be deployed. The file can be found in the `target` folder after the build completes.

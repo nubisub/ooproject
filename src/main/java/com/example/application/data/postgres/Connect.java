@@ -7,14 +7,8 @@ import java.sql.SQLException;
 public class Connect {
         public static Connect instance;
         private  Connection connection;
-        private static final String USERNAME = "postgres";
-        private static final String PASSWORD = "postgres";
-        private static final String CONN_STRING = "jdbc:postgresql://localhost:5432/postgres";
-        private static final String DRIVER_CLASS = "org.postgresql.Driver";
-        private static final String DB_NAME = "postgres";
-        private static final String TABLE_NAME = "public.\"user\"";
 
-        Connect() throws SQLException, URISyntaxException {
+        Connect() {
             try {
                 Class.forName("org.postgresql.Driver");
                 this.connection = DriverManager
@@ -39,13 +33,4 @@ public class Connect {
             return connection;
         }
 
-
-    public static void main(String args[]) {
-        try {
-            Connect connect = Connect.getInstance();
-            Connection connection = connect.getConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

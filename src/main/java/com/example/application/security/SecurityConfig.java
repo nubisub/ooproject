@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Collection;
 
 
@@ -67,8 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       Connection connection = connect.getConnection();
 
       String sql = "SELECT * FROM oop.login";
-      java.sql.Statement statement = connection.createStatement();
-      java.sql.ResultSet resultSet = statement.executeQuery(sql);
+      Statement statement = connection.createStatement();
+      ResultSet resultSet = statement.executeQuery(sql);
 
       while (resultSet.next()) {
         String nim = resultSet.getString("nim");
@@ -78,7 +80,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("{noop}"+password)
                 .roles(role)
                 .build();
-        System.out.println(user.getPassword());
         users.add(user);
       }
 
@@ -88,35 +89,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     return new InMemoryUserDetailsManager(users);
 
-
-//    UserDetails user = User.withUsername("user1")
-//            .password("{noop}userpass")
-//            .roles("USER")
-//            .build();
-//    UserDetails user1 = User.withUsername("user2")
-//            .password("{noop}userpass")
-//            .roles("USER")
-//            .build();
-//
-//    UserDetails adminUser =
-//            User.withUsername("admin")
-//                    .password("{noop}password")
-//                    .roles("USER")
-//                    .build();
-//    Collection<UserDetails> users = new java.util.ArrayList<>();
-//    users.add(adminUser);
-//    adminUser =
-//            User.withUsername("admin1")
-//                    .password("{noop}password1")
-//                    .roles("USER")
-//                    .build();
-//    users.add(adminUser);
   }
 
 
-  /**
-   * Allows access to static resources, bypassing Spring Security.
-   */
+
   @Override
   public void configure(WebSecurity web) {
     web.ignoring().antMatchers(
@@ -126,7 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // the standard favicon URI
         "/favicon.ico",
 
-        // the robots exclusion standard
+        // the robot exclusion standard
         "/robots.txt",
 
         // web application manifest
