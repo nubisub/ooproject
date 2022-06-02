@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.example.application.data.postgres.Connect;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.UI;
@@ -30,12 +29,13 @@ import javax.annotation.security.RolesAllowed;
 @RolesAllowed({"ROLE_admin"})
 @PermitAll
 public class AdminView extends Div {
-//    Main Content = new Main();
+//    list person in grid
     List<Person> people = new ArrayList<>();
 
     public AdminView() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String role = authentication.getAuthorities().toArray()[0].toString();
+//        if not admin deny access
         if (!role.equals("ROLE_admin")) {
             UI.getCurrent().getPage().executeJs("window.location.href = '/'");
             return;
@@ -164,7 +164,6 @@ public class AdminView extends Div {
                     }
             }
             grid.setItems(peoplefilter);
-
 
         });
         searchField.addClassNames("search-field","mb-m","mt-l");

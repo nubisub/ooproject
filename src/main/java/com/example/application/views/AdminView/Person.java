@@ -1,9 +1,7 @@
 package com.example.application.views.AdminView;
 
 import org.apache.tomcat.jni.Address;
-
 import java.util.Date;
-
 import javax.annotation.Nonnull;
 
 

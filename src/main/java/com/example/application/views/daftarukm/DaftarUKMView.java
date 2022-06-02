@@ -16,7 +16,6 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import java.awt.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -44,12 +43,9 @@ public class DaftarUKMView extends Div {
     }
 
     public DaftarUKMView() {
-
         addClassNames("daftar-ukm-view", "flex", "flex-col", "h-full");
-
         Main content = new Main();
         content.addClassNames("grid", "gap-xl", "items-start", "justify-center", "max-w-screen-xl", "pb-l","px-l");
-
         content.add(createCheckoutForm());
         add(content);
         if (ukmSelect1.getValue() == null) {
@@ -61,18 +57,23 @@ public class DaftarUKMView extends Div {
 
             H4 title = new H4("Kunci UKM Pilihan Anda");
             title.addClassNames("mb-m","mt-s");
+
             Span detail = new Span("Apakah anda sudah yakin dengan pilihan UKM anda ?");
+
             Button confirm = new Button("Confirm");
             Button cancel = new Button("Cancel");
             confirm.addClassNames("bg-primary","text-primary-contrast");
             cancel.addClassNames("bg-transparent","text-error");
+
             Div header = new Div(title, detail);
             Div footer = new Div(cancel, confirm);
             header.addClassName("mb-s");
             footer.addClassNames("flex","gap-s", "mt-l");
             footer.addClassNames("justify-end", "align-center");
+
             dialog.add(header, footer);
             dialog.open();
+
             cancel.addClickListener(event1 -> dialog.close());
             confirm.addClickListener(event1 -> {
                 dialog.close();
@@ -82,8 +83,6 @@ public class DaftarUKMView extends Div {
                         pay.setEnabled(false);
                     });
             add(dialog);
-
-
         });
     }
 
@@ -95,8 +94,8 @@ public class DaftarUKMView extends Div {
         header.addClassNames("mb-0", "mt-xl", "text-3xl");
         Paragraph note = new Paragraph("Pilih UKM yang ingin Anda ikuti, urutan menunjukkan prioritas");
         note.addClassNames("mb-xl", "mt-0", "text-secondary");
-        checkoutForm.add(header, note);
 
+        checkoutForm.add(header, note);
         checkoutForm.add(createPersonalDetailsSection());
         checkoutForm.add(new Hr());
         checkoutForm.add(createFooter());
@@ -116,11 +115,9 @@ public class DaftarUKMView extends Div {
         if (!ukm1.equals("")) {
             ukmSelect1.setValue(ukm1);
         }
-//        ukmSelect1.setValue(account.getUkm1());
         ukmSelect1.addValueChangeListener(e -> {
             if (ukmSelect1.getValue() != null) {
                 pay.setEnabled(true);
-//                account.setUkm1(ukmSelect1.getValue());
             }
                 });
 
@@ -132,7 +129,6 @@ public class DaftarUKMView extends Div {
         if (!ukm2.equals("")) {
             ukmSelect2.setValue(ukm2);
         }
-//        ukmSelect2.setValue(account.getUkm2());
 
 
         ukmSelect3.setRequiredIndicatorVisible(true);
@@ -142,7 +138,6 @@ public class DaftarUKMView extends Div {
         if (!ukm3.equals("")) {
             ukmSelect3.setValue(ukm3);
         }
-//        ukmSelect3.setValue(account.getUkm3());
 
 
         ukmSelect4.setRequiredIndicatorVisible(true);
@@ -152,7 +147,6 @@ public class DaftarUKMView extends Div {
         if (!ukm4.equals("")) {
             ukmSelect4.setValue(ukm4);
         }
-//        ukmSelect4.setValue(account.getUkm4());
 
 
         ukmSelect5.setRequiredIndicatorVisible(true);
@@ -162,8 +156,6 @@ public class DaftarUKMView extends Div {
         if (!ukm5.equals("")) {
             ukmSelect5.setValue(ukm5);
         }
-//        ukmSelect5.setValue(account.getUkm5());
-
 
         personalDetails.add( ukmSelect1,ukmSelect2,ukmSelect3,ukmSelect4,ukmSelect5);
         return personalDetails;
@@ -176,6 +168,7 @@ public class DaftarUKMView extends Div {
 
         pay.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
         pay.addClassName("submit-button");
+
         footer.add(pay);
         return footer;
     }
@@ -184,12 +177,13 @@ public class DaftarUKMView extends Div {
 
         aside.addClassNames("bg-contrast-5", "box-border", "p-l", "rounded", "sticky");
         aside.setMinWidth("350px");
+
         Header headerSection = new Header();
         headerSection.addClassNames("flex", "items-center", "justify-between", "mb-m");
+
         H3 header = new H3("Status Pendaftaran");
         header.addClassNames("m-0");
         headerSection.add(header);
-
 
         confirmed.getElement().getThemeList().add("badge success");
         confirmed.setWidth("120px");
@@ -198,7 +192,6 @@ public class DaftarUKMView extends Div {
         rejected.setWidth("120px");
 
         ul.addClassNames("list-none", "m-10", "p-0", "flex", "flex-col", "gap-m");
-
 
         if (ukmSelect1.getValue() != null) {
             Span pending = new Span("Dalam Proses");
@@ -253,6 +246,4 @@ public class DaftarUKMView extends Div {
 
         return item;
     }
-
-
 }

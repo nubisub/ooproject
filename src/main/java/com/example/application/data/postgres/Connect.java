@@ -1,4 +1,5 @@
 package com.example.application.data.postgres;
+
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;

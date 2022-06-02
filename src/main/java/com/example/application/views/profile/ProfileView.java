@@ -25,8 +25,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
-import java.time.LocalDate;
-
 @PageTitle("Profile")
 @Route(value = "profile", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
@@ -34,21 +32,13 @@ import java.time.LocalDate;
 public class ProfileView extends Div {
     TextField nama = new TextField("Nama");
     TextField nim = new TextField("NIM");
-
     public PhoneNumberField phone = new PhoneNumberField("Nomor Telepon");
-
     public TextField alamat = new TextField("Alamat");
-
     public Button save = new Button("Save");
-
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
-
     public ProfileView(SamplePersonService personService) {
 
-
-
         addClassName("profile-view");
-
         add(createTitle());
         add(createFormLayout());
         add(createButtonLayout());
@@ -71,16 +61,15 @@ public class ProfileView extends Div {
         DatePicker dateOfBirth = new DatePicker("Tanggal Lahir");
         email.setErrorMessage("Please enter a valid email address");
         nim.setEnabled(false);
-//        nim.setValue(akun.getNim());
         Account account = Account.getInstance();
         nim.setValue(account.getNim());
         nama.setValue(account.getNama());
         alamat.setValue(account.getAlamat());
         email.setValue(account.getEmail());
         phone.number.setValue(account.getPhone());
-//        number.setValue(account.getPhone());
-
         dateOfBirth.setValue(account.getTanggalLahir());
+
+//        save button listener
         save.addClickListener(event -> {
             Dialog dialog = new Dialog();
             dialog.setMinWidth("370px");
@@ -100,12 +89,11 @@ public class ProfileView extends Div {
             dialog.add(header, footer);
             dialog.open();
             cancel.addClickListener(event1 -> dialog.close());
+//            confirm button listener
             confirm.addClickListener(event1 -> {
                 Notification notification = Notification.show("Data berhasil disimpan", 3000, Notification.Position.BOTTOM_START);
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-//                Account account = Account.getInstance();
                 account.setNama(nama.getValue());
-//                account.setNim(nim.getValue());
                 account.setPhone(phone.number.getValue());
                 account.setAlamat(alamat.getValue());
                 account.setEmail(email.getValue());
@@ -114,7 +102,6 @@ public class ProfileView extends Div {
                 dialog.close();
             });
             add(dialog);
-
         });
 
         formLayout.add(nama, nim, dateOfBirth, phone, email, alamat);
@@ -141,8 +128,10 @@ public class ProfileView extends Div {
             countryCode.setPreventInvalidInput(true);
             countryCode.setItems("+62");
             countryCode.addCustomValueSetListener(e -> countryCode.setValue(e.getDetail()));
+
             number.setPattern("\\d*");
             number.setPreventInvalidInput(true);
+
             countryCode.setValue("+62");
             HorizontalLayout layout = new HorizontalLayout(countryCode, number);
             layout.setFlexGrow(1.0, number);

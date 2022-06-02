@@ -62,6 +62,7 @@ public class MainLayout extends AppLayout {
         addToNavbar(createHeaderContent());
     }
 
+//    Header and navbar
     private Component createHeaderContent() {
         Header header = new Header();
         header.addClassNames("bg-base", "border-b", "border-contrast-10", "box-border", "flex", "flex-col", "w-full");
@@ -76,15 +77,10 @@ public class MainLayout extends AppLayout {
         Nav nav = new Nav();
         nav.addClassNames("flex", "gap-s", "overflow-auto", "px-m");
 
-        // Wrap the links in a list; improves accessibility
         UnorderedList list = new UnorderedList();
         list.addClassNames("flex", "list-none", "m-0", "p-0");
         nav.add(list);
         Button logout = new Button("Log out", e -> securityService.logout());
-//        logout.addClickListener(event ->{
-//            Account account = Account.getInstance();
-//            account.refresh();
-//                });
 
         layout.add(logout);
         for (MenuItemInfo menuItem : createMenuItems()) {
@@ -95,12 +91,16 @@ public class MainLayout extends AppLayout {
     }
 
     private MenuItemInfo[] createMenuItems() {
+
+//        set session account
         Account account = Account.getInstance();
         account.refresh();
         account.setNim(SecurityContextHolder.getContext().getAuthentication().getName());
 
+//        get role
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String role = authentication.getAuthorities().toArray()[0].toString();
+//        create menu if user is user
         if (role.equals("ROLE_USER")) {
             return new MenuItemInfo[]{
                     new MenuItemInfo("Profile", "la la-user", ProfileView.class), //
@@ -108,6 +108,7 @@ public class MainLayout extends AppLayout {
             };
 
         }
+//        create menu if user is admin
         else{
 
             return new MenuItemInfo[]{
