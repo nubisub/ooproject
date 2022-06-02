@@ -112,11 +112,15 @@ public class DaftarUKMView extends Div {
         ukmSelect1.addClassNames("mb-s");
         ukmSelect1.setItems(ukm);
         ukmSelect1.isPreventInvalidInput();
-        ukmSelect1.setValue(account.getUkm1());
+        String ukm1 = account.getUkm1();
+        if (!ukm1.equals("")) {
+            ukmSelect1.setValue(ukm1);
+        }
+//        ukmSelect1.setValue(account.getUkm1());
         ukmSelect1.addValueChangeListener(e -> {
             if (ukmSelect1.getValue() != null) {
                 pay.setEnabled(true);
-                account.setUkm1(ukmSelect1.getValue());
+//                account.setUkm1(ukmSelect1.getValue());
             }
                 });
 
@@ -124,18 +128,42 @@ public class DaftarUKMView extends Div {
         ukmSelect2.setRequiredIndicatorVisible(true);
         ukmSelect2.addClassNames("mb-s");
         ukmSelect2.setItems(ukm);
+        String ukm2 = account.getUkm2();
+        if (!ukm2.equals("")) {
+            ukmSelect2.setValue(ukm2);
+        }
+//        ukmSelect2.setValue(account.getUkm2());
+
 
         ukmSelect3.setRequiredIndicatorVisible(true);
         ukmSelect3.addClassNames("mb-s");
         ukmSelect3.setItems(ukm);
+        String ukm3 = account.getUkm3();
+        if (!ukm3.equals("")) {
+            ukmSelect3.setValue(ukm3);
+        }
+//        ukmSelect3.setValue(account.getUkm3());
+
 
         ukmSelect4.setRequiredIndicatorVisible(true);
         ukmSelect4.addClassNames("mb-s");
         ukmSelect4.setItems(ukm);
+        String ukm4 = account.getUkm4();
+        if (!ukm4.equals("")) {
+            ukmSelect4.setValue(ukm4);
+        }
+//        ukmSelect4.setValue(account.getUkm4());
+
 
         ukmSelect5.setRequiredIndicatorVisible(true);
         ukmSelect5.addClassNames("mb-s");
         ukmSelect5.setItems(ukm);
+        String ukm5 = account.getUkm5();
+        if (!ukm5.equals("")) {
+            ukmSelect5.setValue(ukm5);
+        }
+//        ukmSelect5.setValue(account.getUkm5());
+
 
         personalDetails.add( ukmSelect1,ukmSelect2,ukmSelect3,ukmSelect4,ukmSelect5);
         return personalDetails;

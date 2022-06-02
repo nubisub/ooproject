@@ -34,13 +34,12 @@ import java.time.LocalDate;
 public class ProfileView extends Div {
     TextField nama = new TextField("Nama");
     TextField nim = new TextField("NIM");
-    private static TextField number = new TextField();
 
     public PhoneNumberField phone = new PhoneNumberField("Nomor Telepon");
 
     public TextField alamat = new TextField("Alamat");
 
-    private Button save = new Button("Save");
+    public Button save = new Button("Save");
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
 
@@ -78,7 +77,8 @@ public class ProfileView extends Div {
         nama.setValue(account.getNama());
         alamat.setValue(account.getAlamat());
         email.setValue(account.getEmail());
-        number.setValue(account.getPhone());
+        phone.number.setValue(account.getPhone());
+//        number.setValue(account.getPhone());
 
         dateOfBirth.setValue(account.getTanggalLahir());
         save.addClickListener(event -> {
@@ -106,7 +106,7 @@ public class ProfileView extends Div {
 //                Account account = Account.getInstance();
                 account.setNama(nama.getValue());
 //                account.setNim(nim.getValue());
-                account.setPhone(number.getValue());
+                account.setPhone(phone.number.getValue());
                 account.setAlamat(alamat.getValue());
                 account.setEmail(email.getValue());
                 account.setTanggalLahir(String.valueOf(dateOfBirth.getValue()));
@@ -131,9 +131,8 @@ public class ProfileView extends Div {
 
     private static class PhoneNumberField extends CustomField<String> {
         private ComboBox<String> countryCode = new ComboBox<>();
-
+        public TextField number = new TextField();
         public PhoneNumberField(String label) {
-            Account account = Account.getInstance();
 
             setLabel(label);
             countryCode.setWidth("120px");

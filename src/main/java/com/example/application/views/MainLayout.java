@@ -81,6 +81,11 @@ public class MainLayout extends AppLayout {
         list.addClassNames("flex", "list-none", "m-0", "p-0");
         nav.add(list);
         Button logout = new Button("Log out", e -> securityService.logout());
+//        logout.addClickListener(event ->{
+//            Account account = Account.getInstance();
+//            account.refresh();
+//                });
+
         layout.add(logout);
         for (MenuItemInfo menuItem : createMenuItems()) {
             list.add(menuItem);
@@ -91,6 +96,7 @@ public class MainLayout extends AppLayout {
 
     private MenuItemInfo[] createMenuItems() {
         Account account = Account.getInstance();
+        account.refresh();
         account.setNim(SecurityContextHolder.getContext().getAuthentication().getName());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

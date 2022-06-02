@@ -193,4 +193,21 @@ public class Account {
     public void setUkm5(String ukm5) {
         this.ukm5 = ukm5;
     }
+
+    public void refresh(){
+        setAlamat("");
+        setEmail("");
+        setIsDaftar("");
+        setNama("");
+        setPassword("");
+        setPhone("");
+        setRole("");
+//        setTanggalLahir("");
+        setUkm1("");
+        setUkm2("");
+        setUkm3("");
+        setUkm4("");
+        setUkm5("");
+
+    }
 }
