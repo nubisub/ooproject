@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Update {
-    public Update(String nim, String nama, String alamat, String tanggal_lahir, String email, String phone) throws SQLException, URISyntaxException {
+    public void Update(String nim, String nama, String alamat, String tanggal_lahir, String email, String phone) throws SQLException, URISyntaxException {
         String sql = "UPDATE oop.\"Mahasiswa\"\n" +
                 "SET nama          =  ?,\n" +
                 "    tanggal_lahir = ?,\n" +
@@ -24,7 +24,9 @@ public class Update {
         pstmt.setString(4, phone);
         pstmt.setString(5, alamat);
         pstmt.executeUpdate();
-        pstmt.close();
-        connection.close();
+//        pstmt.close();
+//        connection.close();
     }
+
+
 }

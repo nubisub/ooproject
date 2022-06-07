@@ -2,6 +2,7 @@ package com.example.application.views.profile;
 
 import com.example.application.data.entity.SamplePerson;
 import com.example.application.data.postgres.Account;
+import com.example.application.data.postgres.Update;
 import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
@@ -25,11 +26,15 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
+import java.net.URISyntaxException;
+import java.sql.SQLException;
+
 @PageTitle("Profile")
 @Route(value = "profile", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
 public class ProfileView extends Div {
+    Update update = new Update();
     TextField nama = new TextField("Nama");
     TextField nim = new TextField("NIM");
     public PhoneNumberField phone = new PhoneNumberField("Nomor Telepon");
@@ -98,7 +103,14 @@ public class ProfileView extends Div {
                 account.setAlamat(alamat.getValue());
                 account.setEmail(email.getValue());
                 account.setTanggalLahir(String.valueOf(dateOfBirth.getValue()));
-
+                try {
+                    update.Update(nim.getValue(), nama.getValue(), alamat.getValue(), String.valueOf(dateOfBirth.getValue()), email.getValue(), phone.number.getValue());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+//
                 dialog.close();
             });
             add(dialog);
