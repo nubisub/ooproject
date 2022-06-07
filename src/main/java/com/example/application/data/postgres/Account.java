@@ -10,7 +10,7 @@ public class Account {
     private String nama;
     private String nim;
     private String password;
-    private String isDaftar;
+    private String status;
     private String role;
     private String email;
     private String phone;
@@ -38,7 +38,7 @@ public class Account {
             ResultSet resultSet2 = connection.createStatement().executeQuery(query2);
             while (resultSet2.next()) {
                 this.nama = resultSet2.getString("nama");
-                this.isDaftar = resultSet2.getString("status");
+                this.status = resultSet2.getString("status");
                 this.phone = resultSet2.getString("phone");
                 this.alamat = resultSet2.getString("alamat");
                 this.tanggalLahir = resultSet2.getDate("tanggal_lahir").toLocalDate();
@@ -76,11 +76,31 @@ public class Account {
             ResultSet resultSet2 = connection.createStatement().executeQuery(query2);
             while (resultSet2.next()) {
                 this.nama = resultSet2.getString("nama");
-                this.isDaftar = resultSet2.getString("status");
+                this.status = resultSet2.getString("status");
                 this.phone = resultSet2.getString("phone");
                 this.alamat = resultSet2.getString("alamat");
                 this.tanggalLahir = resultSet2.getDate("tanggal_lahir").toLocalDate();
                 this.email = resultSet2.getString("email");
+            }
+            String query3 = "SELECT * FROM oop.ukm_registration WHERE nim = '" + nim + "'";
+            ResultSet resultSet3 = connection.createStatement().executeQuery(query3);
+            while (resultSet3.next()) {
+                if (resultSet3.getString("ukm1") != null) {
+                    this.ukm1 = resultSet3.getString("ukm1");
+                }
+                if (resultSet3.getString("ukm2") != null) {
+                    this.ukm2 = resultSet3.getString("ukm2");
+                }
+                if (resultSet3.getString("ukm3") != null) {
+                    this.ukm3 = resultSet3.getString("ukm3");
+                }
+                if (resultSet3.getString("ukm4") != null) {
+                    this.ukm4 = resultSet3.getString("ukm4");
+                }
+                if (resultSet3.getString("ukm5") != null) {
+                    this.ukm5 = resultSet3.getString("ukm5");
+                }
+
             }
 
         } catch (Exception e) {
@@ -96,12 +116,12 @@ public class Account {
         this.password = password;
     }
 
-    public String getIsDaftar() {
-        return isDaftar;
+    public String getStatus() {
+        return status;
     }
 
-    public void setIsDaftar(String isDaftar) {
-        this.isDaftar = isDaftar;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getRole() {
@@ -195,7 +215,7 @@ public class Account {
     public void refresh(){
         setAlamat("");
         setEmail("");
-        setIsDaftar("");
+        setStatus("");
         setNama("");
         setPassword("");
         setPhone("");

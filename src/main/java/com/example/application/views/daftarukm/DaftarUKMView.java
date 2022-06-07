@@ -83,7 +83,11 @@ public class DaftarUKMView extends Div {
                         pay.setEnabled(false);
                     });
             add(dialog);
+
         });
+        if(account.getStatus().equals("1")){
+            content.add(createAside());
+        }
     }
 
     private Component createCheckoutForm() {
@@ -155,6 +159,14 @@ public class DaftarUKMView extends Div {
         String ukm5 = account.getUkm5();
         if (!ukm5.equals("")) {
             ukmSelect5.setValue(ukm5);
+        }
+        if (account.getStatus().equals("1")){
+            ukmSelect1.setEnabled(false);
+            ukmSelect2.setEnabled(false);
+            ukmSelect3.setEnabled(false);
+            ukmSelect4.setEnabled(false);
+            ukmSelect5.setEnabled(false);
+            pay.setEnabled(false);
         }
 
         personalDetails.add( ukmSelect1,ukmSelect2,ukmSelect3,ukmSelect4,ukmSelect5);

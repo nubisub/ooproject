@@ -65,7 +65,7 @@ public class ProfileView extends Div {
         EmailField email = new EmailField("Email");
         DatePicker dateOfBirth = new DatePicker("Tanggal Lahir");
         email.setErrorMessage("Please enter a valid email address");
-        nim.setEnabled(false);
+        nim.setReadOnly(true);
         Account account = Account.getInstance();
         nim.setValue(account.getNim());
         nama.setValue(account.getNama());
@@ -73,6 +73,16 @@ public class ProfileView extends Div {
         email.setValue(account.getEmail());
         phone.number.setValue(account.getPhone());
         dateOfBirth.setValue(account.getTanggalLahir());
+
+        if(account.getStatus().equals("1")){
+            nama.setReadOnly(true);
+            alamat.setReadOnly(true);
+            email.setReadOnly(true);
+            phone.number.setReadOnly(true);
+            phone.countryCode.setReadOnly(true);
+            dateOfBirth.setReadOnly(true);
+
+        }
 
 //        save button listener
         save.addClickListener(event -> {
