@@ -2,6 +2,7 @@ package com.example.application.views.profile;
 
 import com.example.application.data.entity.SamplePerson;
 import com.example.application.data.postgres.Account;
+import com.example.application.data.postgres.DaftarUKM;
 import com.example.application.data.postgres.Update;
 import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
@@ -25,15 +26,25 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @PageTitle("Profile")
 @Route(value = "profile", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
 public class ProfileView extends Div {
+    ComboBox<String> adminUKM = new ComboBox<>("Admin UKM");
+    private static final Set<String> ukm = new LinkedHashSet<>();
+    static DaftarUKM daftarukm = new DaftarUKM();
+    static {
+        ukm.addAll(daftarukm.getDaftarUKM());
+    }
     Update update = new Update();
     TextField nama = new TextField("Nama");
     TextField nim = new TextField("NIM");
@@ -109,6 +120,18 @@ public class ProfileView extends Div {
             confirm.addClickListener(event1 -> {
                 Notification notification = Notification.show("Data berhasil disimpan", 3000, Notification.Position.BOTTOM_START);
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String role = authentication.getAuthorities().toArray()[0].toString();
+                if (role.equals("ROLE_admin")){
+                    account.setAdminUKM(adminUKM.getValue());
+                    try {
+                        update.UpdateAdminUKM(account.getNim(), account.getAdminUKM());
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (URISyntaxException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 account.setNama(nama.getValue());
                 account.setPhone(phone.number.getValue());
                 account.setAlamat(alamat.getValue());
@@ -127,7 +150,25 @@ public class ProfileView extends Div {
             add(dialog);
         });
 
-        formLayout.add(nama, nim, dateOfBirth, phone, email, alamat);
+
+
+
+        adminUKM.setItems(ukm);
+        if(account.getAdminUKM() != null){
+            adminUKM.setValue(account.getAdminUKM());
+        }
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role = authentication.getAuthorities().toArray()[0].toString();
+
+        if (!role.equals("ROLE_admin")) {
+            formLayout.add(nama, nim, dateOfBirth, phone, email, alamat);
+        } else {
+            formLayout.add(nama, nim, dateOfBirth, phone, email, adminUKM);
+
+        }
+
         return formLayout;
     }
 

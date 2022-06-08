@@ -16,6 +16,7 @@ public class Account {
     private String phone;
     private String alamat;
     private LocalDate tanggalLahir;
+
     private String ukm1;
     private int ukm1Status;
     private String ukm2;
@@ -27,6 +28,8 @@ public class Account {
     private int ukm4Status;
     private String ukm5;
     private int ukm5Status;
+
+    private String adminUKM;
 
 
     public Account(String nim) {
@@ -272,6 +275,14 @@ public class Account {
 
     public void setUkm5Status(int ukm5Status) {
         this.ukm5Status = ukm5Status;
+    }
+
+    public String getAdminUKM() {
+        return adminUKM;
+    }
+
+    public void setAdminUKM(String adminUKM) {
+        this.adminUKM = adminUKM;
     }
 
     public void refresh(){

@@ -52,6 +52,20 @@ public class Update {
         pstmt.executeUpdate();
 
     }
+    public void UpdateAdminUKM(String nim, String UKM) throws SQLException, URISyntaxException {
+        Connect connect = Connect.getInstance();
+        Connection connection = connect.getConnection();
+
+        String sql = "UPDATE oop.admin_registration\n" +
+                "SET ukm_administrator = '" + UKM + "'\n" +
+                "WHERE nim LIKE '" + nim + "' ESCAPE '#';\n";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.executeUpdate();
+
+
+
+
+    }
 
 
 }
