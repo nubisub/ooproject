@@ -2,6 +2,7 @@ package com.example.application.views.daftarukm;
 
 import com.example.application.data.postgres.Account;
 import com.example.application.data.postgres.DaftarUKM;
+import com.example.application.data.postgres.Update;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -16,6 +17,8 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -23,6 +26,8 @@ import java.util.Set;
 @Route(value = "daftarukm", layout = MainLayout.class)
 //@RolesAllowed("USER")
 public class DaftarUKMView extends Div {
+    Update update = new Update();
+
     Account account = Account.getInstance();
      ComboBox<String> ukmSelect1 = new ComboBox<>("Pilihan Pertama");
      ComboBox<String> ukmSelect2 = new ComboBox<>("Pilihan Kedua");
@@ -51,6 +56,9 @@ public class DaftarUKMView extends Div {
         if (ukmSelect1.getValue() == null) {
             pay.setEnabled(false);
         }
+        if(account.getStatus().equals("1")){
+            content.add(createAside());
+        }
         pay.addClickListener(e -> {
             Dialog dialog = new Dialog();
             dialog.setMinWidth("370px");
@@ -76,18 +84,72 @@ public class DaftarUKMView extends Div {
 
             cancel.addClickListener(event1 -> dialog.close());
             confirm.addClickListener(event1 -> {
+
+            account.setStatus("1");
+                try {
+                    update.updateStatus(account.getNim());
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (URISyntaxException ex) {
+                    throw new RuntimeException(ex);
+                }
+                if (ukmSelect1.getValue() != null){
+                    try {
+                        update.registrasiUKM(account.getNim(), ukmSelect1.getValue(), 1 );
+                    } catch (SQLException err) {
+                        throw new RuntimeException(err);
+                    } catch (URISyntaxException err) {
+                        throw new RuntimeException(err);
+                    }
+                }
+                if (ukmSelect2.getValue() != null && !ukmSelect2.getValue().equals(ukmSelect1.getValue())){
+                    try {
+                        update.registrasiUKM(account.getNim(), ukmSelect2.getValue(), 2 );
+                    } catch (SQLException err) {
+                        throw new RuntimeException(err);
+                    } catch (URISyntaxException err) {
+                        throw new RuntimeException(err);
+                    }
+                }
+                if (ukmSelect3.getValue() != null && !ukmSelect3.getValue().equals(ukmSelect1.getValue()) && !ukmSelect3.getValue().equals(ukmSelect2.getValue())){
+                    try {
+                        update.registrasiUKM(account.getNim(), ukmSelect3.getValue(), 3 );
+                    } catch (SQLException err) {
+                        throw new RuntimeException(err);
+                    } catch (URISyntaxException err) {
+                        throw new RuntimeException(err);
+                    }
+                }
+                if (ukmSelect4.getValue() != null && !ukmSelect4.getValue().equals(ukmSelect1.getValue()) && !ukmSelect4.getValue().equals(ukmSelect2.getValue()) && !ukmSelect4.getValue().equals(ukmSelect3.getValue())){
+                    try {
+                        update.registrasiUKM(account.getNim(), ukmSelect4.getValue(), 4 );
+                    } catch (SQLException err) {
+                        throw new RuntimeException(err);
+                    } catch (URISyntaxException err) {
+                        throw new RuntimeException(err);
+                    }
+                }
+                if (ukmSelect5.getValue() != null && !ukmSelect5.getValue().equals(ukmSelect1.getValue()) && !ukmSelect5.getValue().equals(ukmSelect2.getValue()) && !ukmSelect5.getValue().equals(ukmSelect3.getValue()) && !ukmSelect5.getValue().equals(ukmSelect4.getValue())){
+                    try {
+                        update.registrasiUKM(account.getNim(), ukmSelect5.getValue(), 5);
+                    } catch (SQLException err) {
+                        throw new RuntimeException(err);
+                    } catch (URISyntaxException err) {
+                        throw new RuntimeException(err);
+                    }
+                }
+
                 dialog.close();
                 Notification notification = Notification.show("Pilihan UKM anda berhasil disimpan", 3000, Notification.Position.BOTTOM_START);
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                         content.add(createAside());
                         pay.setEnabled(false);
+
                     });
             add(dialog);
 
         });
-        if(account.getStatus().equals("1")){
-            content.add(createAside());
-        }
+
     }
 
     private Component createCheckoutForm() {
@@ -135,6 +197,7 @@ public class DaftarUKMView extends Div {
         }
 
 
+
         ukmSelect3.setRequiredIndicatorVisible(true);
         ukmSelect3.addClassNames("mb-s");
         ukmSelect3.setItems(ukm);
@@ -151,6 +214,7 @@ public class DaftarUKMView extends Div {
         if (!ukm4.equals("")) {
             ukmSelect4.setValue(ukm4);
         }
+
 
 
         ukmSelect5.setRequiredIndicatorVisible(true);
@@ -197,43 +261,111 @@ public class DaftarUKMView extends Div {
         header.addClassNames("m-0");
         headerSection.add(header);
 
-        confirmed.getElement().getThemeList().add("badge success");
-        confirmed.setWidth("120px");
-
-        rejected.getElement().getThemeList().add("badge error");
-        rejected.setWidth("120px");
+//        confirmed.getElement().getThemeList().add("badge success");
+//        confirmed.setWidth("120px");
+//
+//        rejected.getElement().getThemeList().add("badge error");
+//        rejected.setWidth("120px");
 
         ul.addClassNames("list-none", "m-10", "p-0", "flex", "flex-col", "gap-m");
 
         if (ukmSelect1.getValue() != null) {
-            Span pending = new Span("Dalam Proses");
-            pending.getElement().getThemeList().add("badge");
-            pending.setWidth("120px");
-            ul.add(createListItem(ukmSelect1.getValue(),  pending));
+
+            Span badge = new Span();
+
+            if (account.getUkm1Status() == 0){
+                badge.setText("Dalam Proses");
+                badge.getElement().getThemeList().add("badge");
+                badge.setWidth("120px");
+            } else if (account.getUkm1Status() == 1){
+                badge.setText("Diterima");
+                badge.getElement().getThemeList().add("badge success");
+                badge.setWidth("120px");
+            } else if (account.getUkm1Status() == 2){
+                badge.setText("Ditolak");
+                badge.getElement().getThemeList().add("badge error");
+                badge.setWidth("120px");
+            }
+
+
+            account.setUkm1(ukmSelect1.getValue());
+            ul.add(createListItem(ukmSelect1.getValue(),  badge));
         }
         if (ukmSelect2.getValue() != null && !ukmSelect2.getValue().equals(ukmSelect1.getValue())) {
-            Span pending = new Span("Dalam Proses");
-            pending.getElement().getThemeList().add("badge");
-            pending.setWidth("120px");
-            ul.add(createListItem(ukmSelect2.getValue(),  pending));
+            account.setUkm2(ukmSelect2.getValue());
+            Span badge = new Span();
+            if (account.getUkm2Status() == 0){
+                badge.setText("Dalam Proses");
+                badge.getElement().getThemeList().add("badge");
+                badge.setWidth("120px");
+            } else if (account.getUkm2Status() == 1){
+                badge.setText("Diterima");
+                badge.getElement().getThemeList().add("badge success");
+                badge.setWidth("120px");
+            } else if (account.getUkm2Status() == 2){
+                badge.setText("Ditolak");
+                badge.getElement().getThemeList().add("badge error");
+                badge.setWidth("120px");
+            }
+
+            ul.add(createListItem(ukmSelect2.getValue(),  badge));
         }
         if (ukmSelect3.getValue() != null && !ukmSelect3.getValue().equals(ukmSelect1.getValue()) && !ukmSelect3.getValue().equals(ukmSelect2.getValue())) {
-            Span pending = new Span("Dalam Proses");
-            pending.getElement().getThemeList().add("badge");
-            pending.setWidth("120px");
-            ul.add(createListItem(ukmSelect3.getValue(),  pending));
+            account.setUkm3(ukmSelect3.getValue());
+            Span badge = new Span();
+            if (account.getUkm3Status() == 0){
+                badge.setText("Dalam Proses");
+                badge.getElement().getThemeList().add("badge");
+                badge.setWidth("120px");
+            } else if (account.getUkm3Status() == 1){
+                badge.setText("Diterima");
+                badge.getElement().getThemeList().add("badge success");
+                badge.setWidth("120px");
+            } else if (account.getUkm3Status() == 2){
+                badge.setText("Ditolak");
+                badge.getElement().getThemeList().add("badge error");
+                badge.setWidth("120px");
+            }
+
+            ul.add(createListItem(ukmSelect3.getValue(),  badge));
         }
         if (ukmSelect4.getValue() != null && !ukmSelect4.getValue().equals(ukmSelect1.getValue()) && !ukmSelect4.getValue().equals(ukmSelect2.getValue()) && !ukmSelect4.getValue().equals(ukmSelect3.getValue())) {
-            Span pending = new Span("Dalam Proses");
-            pending.getElement().getThemeList().add("badge");
-            pending.setWidth("120px");
-            ul.add(createListItem(ukmSelect4.getValue(),  pending));
+            account.setUkm4(ukmSelect4.getValue());
+            Span badge = new Span();
+            if (account.getUkm4Status() == 0){
+                badge.setText("Dalam Proses");
+                badge.getElement().getThemeList().add("badge");
+                badge.setWidth("120px");
+            } else if (account.getUkm4Status() == 1){
+                badge.setText("Diterima");
+                badge.getElement().getThemeList().add("badge success");
+                badge.setWidth("120px");
+            } else if (account.getUkm4Status() == 2){
+                badge.setText("Ditolak");
+                badge.getElement().getThemeList().add("badge error");
+                badge.setWidth("120px");
+            }
+
+            ul.add(createListItem(ukmSelect4.getValue(),  badge));
         }
         if (ukmSelect5.getValue() != null && !ukmSelect5.getValue().equals(ukmSelect1.getValue()) && !ukmSelect5.getValue().equals(ukmSelect2.getValue()) && !ukmSelect5.getValue().equals(ukmSelect3.getValue()) && !ukmSelect5.getValue().equals(ukmSelect4.getValue())) {
-            Span pending = new Span("Dalam Proses");
-            pending.getElement().getThemeList().add("badge");
-            pending.setWidth("120px");
-            ul.add(createListItem(ukmSelect5.getValue(),  pending));
+            account.setUkm5(ukmSelect5.getValue());
+            Span badge = new Span();
+            if (account.getUkm5Status() == 0){
+                badge.setText("Dalam Proses");
+                badge.getElement().getThemeList().add("badge");
+                badge.setWidth("120px");
+            } else if (account.getUkm5Status() == 1){
+                badge.setText("Diterima");
+                badge.getElement().getThemeList().add("badge success");
+                badge.setWidth("120px");
+            } else if (account.getUkm5Status() == 2){
+                badge.setText("Ditolak");
+                badge.getElement().getThemeList().add("badge error");
+                badge.setWidth("120px");
+            }
+
+            ul.add(createListItem(ukmSelect5.getValue(),  badge));
         }
         ukmSelect1.setEnabled(false);
         ukmSelect2.setEnabled(false);

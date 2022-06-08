@@ -17,10 +17,16 @@ public class Account {
     private String alamat;
     private LocalDate tanggalLahir;
     private String ukm1;
+    private int ukm1Status;
     private String ukm2;
+    private int ukm2Status;
+
     private String ukm3;
+    private int ukm3Status;
     private String ukm4;
+    private int ukm4Status;
     private String ukm5;
+    private int ukm5Status;
 
 
     public Account(String nim) {
@@ -63,6 +69,17 @@ public class Account {
 
     public void setNim(String nim) {
         this.nim = nim;
+        this.ukm1 = "";
+        this.ukm2 = "";
+        this.ukm3 = "";
+        this.ukm4 = "";
+        this.ukm5 = "";
+        this.ukm1Status = 0;
+        this.ukm2Status = 0;
+        this.ukm3Status = 0;
+        this.ukm4Status = 0;
+        this.ukm5Status = 0;
+
         try{
             Connect connect = Connect.getInstance();
             Connection connection = connect.getConnection();
@@ -82,25 +99,30 @@ public class Account {
                 this.tanggalLahir = resultSet2.getDate("tanggal_lahir").toLocalDate();
                 this.email = resultSet2.getString("email");
             }
-            String query3 = "SELECT * FROM oop.ukm_registration WHERE nim = '" + nim + "'";
-            ResultSet resultSet3 = connection.createStatement().executeQuery(query3);
-            while (resultSet3.next()) {
-                if (resultSet3.getString("ukm1") != null) {
-                    this.ukm1 = resultSet3.getString("ukm1");
-                }
-                if (resultSet3.getString("ukm2") != null) {
-                    this.ukm2 = resultSet3.getString("ukm2");
-                }
-                if (resultSet3.getString("ukm3") != null) {
-                    this.ukm3 = resultSet3.getString("ukm3");
-                }
-                if (resultSet3.getString("ukm4") != null) {
-                    this.ukm4 = resultSet3.getString("ukm4");
-                }
-                if (resultSet3.getString("ukm5") != null) {
-                    this.ukm5 = resultSet3.getString("ukm5");
-                }
+            String query3 = "SELECT * FROM oop.ukm_registration WHERE nim = '" + nim + "' ORDER BY prioritas ";
 
+            ResultSet resultSet3 = connection.createStatement().executeQuery(query3);
+            while(resultSet3.next()){
+                if(resultSet3.getInt("prioritas") == 1){
+                    this.ukm1 = resultSet3.getString("ukm");
+                    this.ukm1Status = resultSet3.getInt("statusDaftar");
+                }
+                if(resultSet3.getInt("prioritas") == 2){
+                    this.ukm2 = resultSet3.getString("ukm");
+                    this.ukm2Status = resultSet3.getInt("statusDaftar");
+                }
+                if(resultSet3.getInt("prioritas") == 3){
+                    this.ukm3 = resultSet3.getString("ukm");
+                    this.ukm3Status = resultSet3.getInt("statusDaftar");
+                }
+                if(resultSet3.getInt("prioritas") == 4){
+                    this.ukm4 = resultSet3.getString("ukm");
+                    this.ukm4Status = resultSet3.getInt("statusDaftar");
+                }
+                if(resultSet3.getInt("prioritas") == 5){
+                    this.ukm5 = resultSet3.getString("ukm");
+                    this.ukm5Status = resultSet3.getInt("statusDaftar");
+                }
             }
 
         } catch (Exception e) {
@@ -210,6 +232,46 @@ public class Account {
 
     public void setUkm5(String ukm5) {
         this.ukm5 = ukm5;
+    }
+
+    public int getUkm1Status() {
+        return ukm1Status;
+    }
+
+    public void setUkm1Status(int ukm1Status) {
+        this.ukm1Status = ukm1Status;
+    }
+
+    public int getUkm2Status() {
+        return ukm2Status;
+    }
+
+    public void setUkm2Status(int ukm2Status) {
+        this.ukm2Status = ukm2Status;
+    }
+
+    public int getUkm3Status() {
+        return ukm3Status;
+    }
+
+    public void setUkm3Status(int ukm3Status) {
+        this.ukm3Status = ukm3Status;
+    }
+
+    public int getUkm4Status() {
+        return ukm4Status;
+    }
+
+    public void setUkm4Status(int ukm4Status) {
+        this.ukm4Status = ukm4Status;
+    }
+
+    public int getUkm5Status() {
+        return ukm5Status;
+    }
+
+    public void setUkm5Status(int ukm5Status) {
+        this.ukm5Status = ukm5Status;
     }
 
     public void refresh(){

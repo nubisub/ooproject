@@ -81,6 +81,7 @@ public class ProfileView extends Div {
             phone.number.setReadOnly(true);
             phone.countryCode.setReadOnly(true);
             dateOfBirth.setReadOnly(true);
+            save.setEnabled(false);
 
         }
 
