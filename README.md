@@ -25,3 +25,18 @@
 - `views` package in `src/main/java` contains the server-side Java views of your application.
 - `views` folder in `frontend/` contains the client-side JavaScript views of your application.
 - `themes` folder in `frontend/` contains the custom CSS styles.
+
+## Status Pendaftaran
+0 = Dalam Proses
+1 = Diterima
+2 = Ditolak
+
+## Status Mahasiswa
+0 = Belum Daftar
+1 = Sudah Daftar
+
+## Username dan Password
+Username = 1-737
+Password = Same as Username
+
+## ENJOY!

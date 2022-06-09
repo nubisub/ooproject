@@ -127,6 +127,13 @@ public class Account {
                     this.ukm5Status = resultSet3.getInt("statusDaftar");
                 }
             }
+            String sql4 = "SELECT * FROM oop.admin_registration WHERE nim = '" + nim + "'";
+            ResultSet resultSet4 = connection.createStatement().executeQuery(sql4);
+            while(resultSet4.next()){
+                this.adminUKM = resultSet4.getString("ukm_administrator");
+            }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

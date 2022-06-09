@@ -21,6 +21,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.GeneratedVaadinTextField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
@@ -83,6 +84,7 @@ public class ProfileView extends Div {
         alamat.setValue(account.getAlamat());
         email.setValue(account.getEmail());
         phone.number.setValue(account.getPhone());
+        phone.setInvalid(false);
         dateOfBirth.setValue(account.getTanggalLahir());
 
         if(account.getStatus().equals("1")){
@@ -189,7 +191,7 @@ public class ProfileView extends Div {
             countryCode.setWidth("120px");
             countryCode.setPlaceholder("Country");
             countryCode.setPattern("\\+\\d*");
-            countryCode.setPreventInvalidInput(true);
+            countryCode.setPreventInvalidInput(false);
             countryCode.setItems("+62");
             countryCode.addCustomValueSetListener(e -> countryCode.setValue(e.getDetail()));
 

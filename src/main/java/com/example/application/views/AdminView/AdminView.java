@@ -1,11 +1,16 @@
 package com.example.application.views.AdminView;
 
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.application.data.postgres.Account;
 import com.example.application.data.postgres.Connect;
+import com.example.application.data.postgres.Update;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -30,7 +35,11 @@ import javax.annotation.security.RolesAllowed;
 @PermitAll
 public class AdminView extends Div {
 //    list person in grid
+Update update = new Update();
+
     List<Person> people = new ArrayList<>();
+    Account account = Account.getInstance();
+
 
     public AdminView() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -46,12 +55,20 @@ public class AdminView extends Div {
             try {
                 Connect connect = Connect.getInstance();
                 Connection connection = connect.getConnection();
-                String sql = "SELECT * FROM oop.\"Mahasiswa\"";
+                String adminUKM = account.getAdminUKM();
+//                String sql = "SELECT * FROM oop.\"Mahasiswa\"";
+                String sql = "SELECT ukm_registration.nim, ukm_registration.ukm, ukm_registration.prioritas,ukm_registration.\"statusDaftar\", l.nama FROM oop.ukm_registration INNER JOIN oop.\"Mahasiswa\" l on l.nim = ukm_registration.nim AND ukm_registration.ukm = '"+adminUKM+"'";
+//SELECT ukm_registration.nim, ukm_registration.ukm, ukm_registration.prioritas, l.nama FROM oop.ukm_registration
+//INNER JOIN oop."Mahasiswa" l on l.nim = ukm_registration.nim AND ukm_registration.ukm = 'Badminton'
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(sql);
+//                while (resultSet.next()) {
+//                    people.add(new Person(resultSet.getString("nama"),
+//                            resultSet.getString("nim"), resultSet.getString("status")));
+//                }
                 while (resultSet.next()) {
                     people.add(new Person(resultSet.getString("nama"),
-                            resultSet.getString("nim"), resultSet.getString("status")));
+                            resultSet.getString("nim"), resultSet.getString("statusDaftar")));
                 }
 
             } catch (Exception e) {
@@ -85,6 +102,8 @@ public class AdminView extends Div {
                         div.add(tolakButton);
                     } else if (person.getStatus().equals("1")) {
                         div.add(confirmed);
+                    } else if(person.getStatus().equals("2")){
+                        div.add(denied);
                     }
                     terimaButton.addClickListener(event -> {
                         Dialog dialog = new Dialog();
@@ -113,6 +132,14 @@ public class AdminView extends Div {
                             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                             div.removeAll();
                             div.add(confirmed);
+                            try {
+                                update.UpdateStatusUKM(person.getId(), account.getAdminUKM(), 1);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            } catch (URISyntaxException e) {
+                                throw new RuntimeException(e);
+                            }
+
                         });
                         add(dialog);
 
@@ -144,6 +171,13 @@ public class AdminView extends Div {
                             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                             div.removeAll();
                             div.add(denied);
+                            try {
+                                update.UpdateStatusUKM(person.getId(), account.getAdminUKM(), 2);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            } catch (URISyntaxException e) {
+                                throw new RuntimeException(e);
+                            }
                         });
                         add(dialog);
 

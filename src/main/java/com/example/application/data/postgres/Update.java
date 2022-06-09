@@ -66,6 +66,16 @@ public class Update {
 
 
     }
+    public void UpdateStatusUKM(String nim, String UKM, int status) throws SQLException, URISyntaxException {
+        Connect connect = Connect.getInstance();
+        Connection connection = connect.getConnection();
+
+        String sql = "UPDATE oop.ukm_registration\n" +
+                "SET \"statusDaftar\" = '" + status + "'\n" +
+                "WHERE nim LIKE '" + nim + "' ESCAPE '#' AND ukm LIKE '" + UKM + "' ESCAPE '#';\n";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.executeUpdate();
+    }
 
 
 }

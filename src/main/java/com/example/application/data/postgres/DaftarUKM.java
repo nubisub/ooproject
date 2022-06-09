@@ -9,7 +9,7 @@ public class DaftarUKM {
     private static ArrayList<String> daftarUKM = new ArrayList<>();
 
     public DaftarUKM() {
-        System.out.println("Daftar UKM");
+//        System.out.println("Daftar UKM");
 
         try{
             Connect connect = Connect.getInstance();
