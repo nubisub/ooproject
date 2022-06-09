@@ -46,10 +46,13 @@ public class Person {
   @Nonnull
   private String status;
 
-  public Person(String nicolaus_copernicus, String i, String status) {
+  private int prioritas;
+
+  public Person(String nicolaus_copernicus, String i, String status, int prioritas) {
     this.firstName = nicolaus_copernicus;
     this.id = i;
     this.status = status;
+    this.prioritas = prioritas;
   }
 
   public String getFirstName() {
@@ -172,6 +175,14 @@ public class Person {
 
   public void setStatus(String status) {
     this.status = status;
+  }
+
+    public int getPrioritas() {
+        return prioritas;
+    }
+
+  public void setPrioritas(int prioritas) {
+    this.prioritas = prioritas;
   }
 }
 // end::snippet[]

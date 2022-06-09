@@ -13,30 +13,65 @@
 2. Open pilihukmyuk-1.0-SNAPSHOT.jar in "target" folder, open `http://localhost:8080/`
 3. Open this link for Demo: https://myproject666.herokuapp.com/
 
-## Deploying to Production
-1. `mvn package -Pproduction` (Windows) / `./mvnw clean package -Pproduction` (Mac & Linux).
-2. `heroku deploy:jar target/pilihukmyuk-1.0-SNAPSHOT.jar -a myproject666` (Deploy to Heroku)
+[//]: # (## Deploying to Production)
 
-## Project structure
+[//]: # (1. `mvn package -Pproduction` &#40;Windows&#41; / `./mvnw clean package -Pproduction` &#40;Mac & Linux&#41;.)
 
-- `MainLayout.java` in `src/main/java` contains the navigation setup (i.e., the
-  side/top bar and the main menu). This setup uses
-  [App Layout](https://vaadin.com/components/vaadin-app-layout).
-- `views` package in `src/main/java` contains the server-side Java views of your application.
-- `views` folder in `frontend/` contains the client-side JavaScript views of your application.
-- `themes` folder in `frontend/` contains the custom CSS styles.
+[//]: # (2. `heroku deploy:jar target/pilihukmyuk-1.0-SNAPSHOT.jar -a myproject666` &#40;Deploy to Heroku&#41;)
 
-## Status Pendaftaran
+[//]: # (## Project structure)
+
+[//]: # ()
+[//]: # (- `MainLayout.java` in `src/main/java` contains the navigation setup &#40;i.e., the)
+
+[//]: # (  side/top bar and the main menu&#41;. This setup uses)
+
+[//]: # (  [App Layout]&#40;https://vaadin.com/components/vaadin-app-layout&#41;.)
+
+[//]: # (- `views` package in `src/main/java` contains the server-side Java views of your application.)
+
+[//]: # (- `views` folder in `frontend/` contains the client-side JavaScript views of your application.)
+
+[//]: # (- `themes` folder in `frontend/` contains the custom CSS styles.)
+
+## Status Pendaftaran UKM
 0 = Dalam Proses
+
 1 = Diterima
+
 2 = Ditolak
 
 ## Status Mahasiswa
-0 = Belum Daftar
-1 = Sudah Daftar
+0 = Belum Daftar UKM
+
+1 = Sudah Daftar UKM
 
 ## Username dan Password
 Username = 1-737
+
 Password = Same as Username
 
 ## ENJOY!
+
+## ScreenShot
+<p align="center">
+  <img src="docs/1mobile.png" />
+</p>
+
+<p align="center">
+  <img src="docs/mobile6.png" />
+</p>
+
+<p align="center">
+  <img src="docs/mobile.png" />
+</p>
+
+<p align="center">
+  <img src="docs/mobile4.png" />
+</p>
+
+
+[]()
+[]()
+[]()
+[]()

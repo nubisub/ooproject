@@ -5,6 +5,7 @@ import com.example.application.data.postgres.DaftarUKM;
 import com.example.application.data.postgres.Update;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -16,6 +17,8 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
@@ -48,6 +51,13 @@ public class DaftarUKMView extends Div {
     }
 
     public DaftarUKMView() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role = authentication.getAuthorities().toArray()[0].toString();
+//        if not admin deny access
+        if (!role.equals("ROLE_USER")) {
+            UI.getCurrent().getPage().executeJs("window.location.href = '/'");
+            return;
+        }
         addClassNames("daftar-ukm-view", "flex", "flex-col", "h-full");
         Main content = new Main();
         content.addClassNames("grid", "gap-xl", "items-start", "justify-center", "max-w-screen-xl", "pb-l","px-l");

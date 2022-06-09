@@ -48,7 +48,9 @@ public class Account {
             while (resultSet2.next()) {
                 this.nama = resultSet2.getString("nama");
                 this.status = resultSet2.getString("status");
-                this.phone = resultSet2.getString("phone");
+                String phone = resultSet2.getString("phone");
+//                remove - from phone
+                this.phone = phone.replace("-", "");
                 this.alamat = resultSet2.getString("alamat");
                 this.tanggalLahir = resultSet2.getDate("tanggal_lahir").toLocalDate();
                 this.email = resultSet2.getString("email");
@@ -97,7 +99,10 @@ public class Account {
             while (resultSet2.next()) {
                 this.nama = resultSet2.getString("nama");
                 this.status = resultSet2.getString("status");
-                this.phone = resultSet2.getString("phone");
+                String phone = resultSet2.getString("phone");
+//                remove - from phone
+                this.phone = phone.replace("-", "");
+//                this.phone = resultSet2.getString("phone");
                 this.alamat = resultSet2.getString("alamat");
                 this.tanggalLahir = resultSet2.getDate("tanggal_lahir").toLocalDate();
                 this.email = resultSet2.getString("email");

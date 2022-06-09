@@ -16,6 +16,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -68,7 +69,7 @@ Update update = new Update();
 //                }
                 while (resultSet.next()) {
                     people.add(new Person(resultSet.getString("nama"),
-                            resultSet.getString("nim"), resultSet.getString("statusDaftar")));
+                            resultSet.getString("nim"), resultSet.getString("statusDaftar"), resultSet.getInt("prioritas")));
                 }
 
             } catch (Exception e) {
@@ -76,9 +77,9 @@ Update update = new Update();
             }
                 grid.addClassNames("justify-center");
                 grid.setItems(people);
-                grid.addColumn(Person::getFirstName).setHeader("Nama").setWidth("80px");
+                grid.addColumn(Person::getFirstName).setHeader("Nama").setWidth("80px").setSortable(true);
                 grid.addColumn(Person::getId)
-                .setHeader("NIM");
+                .setHeader("NIM").setSortable(true).setWidth("40px");
                 grid.addComponentColumn(person -> {
 
                     Div div = new Div();
@@ -183,7 +184,8 @@ Update update = new Update();
 
                             });
                     return div;
-                }).setHeader("Status");
+                }).setHeader("Status").setAutoWidth(true);
+                grid.addColumn(Person::getPrioritas).setHeader("Prioritas UKM").setSortable(true);
 
         TextField searchField = new TextField();
         searchField.setWidth("30%");
@@ -205,6 +207,9 @@ Update update = new Update();
         Div div = new Div();
         div.addClassNames("wrapper", "m-auto");
         div.setWidth("80%");
+        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
+        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+        grid.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
         div.add(searchField, grid);
         add(div);
     }
