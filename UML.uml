@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.example.application.views.AdminView</OriginalElement>
+  <nodes>
+    <node x="446.6217912946431" y="5.0">com.example.application.views.AdminView.Person</node>
+    <node x="166.5158691406251" y="-60.3125">com.example.application.data.postgres.Connect</node>
+    <node x="-28.68397739955344" y="-60.3125">com.example.application.data.postgres.Update</node>
+    <node x="25.708426339286007" y="359.3017926897322">com.example.application.views.AdminView.AdminView</node>
+    <node x="-312.383823939732" y="359.3017926897322">com.example.application.views.profile.ProfileView</node>
+    <node x="-250.883823939732" y="5.0">com.example.application.data.postgres.DaftarUKM</node>
+    <node x="315.61607142857144" y="-145.8125">com.example.application.data.postgres.Account</node>
+    <node x="-563.47607421875" y="359.3017926897322">com.example.application.views.daftarukm.DaftarUKMView</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.example.application.views.AdminView.AdminView" target="com.example.application.data.postgres.Update" relationship="TO_ONE">
+      <point x="-53.89240373883945" y="-31.5" />
+      <point x="15.0" y="31.5" />
+    </edge>
+    <edge source="com.example.application.views.AdminView.AdminView" target="com.example.application.views.AdminView.Person" relationship="TO_MANY">
+      <point x="75.5" y="-0.0" />
+      <point x="580.1217912946431" y="390.8017926897322" />
+      <point x="-0.0" y="31.5" />
+    </edge>
+    <edge source="com.example.application.views.profile.ProfileView" target="com.example.application.data.postgres.DaftarUKM" relationship="TO_ONE">
+      <point x="0.0" y="-31.5" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="com.example.application.views.profile.ProfileView" target="com.example.application.data.postgres.Update" relationship="TO_ONE">
+      <point x="0.0" y="-31.5" />
+      <point x="-176.383823939732" y="108.0" />
+      <point x="32.31602260044656" y="108.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="com.example.application.views.daftarukm.DaftarUKMView" target="com.example.application.data.postgres.Account" relationship="TO_ONE">
+      <point x="-0.0" y="-31.5" />
+      <point x="-470.97607421875" y="-129.3125" />
+      <point x="-81.5" y="-15.0" />
+    </edge>
+    <edge source="com.example.application.views.AdminView.AdminView" target="com.example.application.data.postgres.Account" relationship="TO_ONE">
+      <point x="75.5" y="-15.0" />
+      <point x="427.11607142857144" y="375.8017926897322" />
+      <point x="30.0" y="31.5" />
+    </edge>
+    <edge source="com.example.application.views.profile.ProfileView" target="com.example.application.data.postgres.Account" relationship="TO_ONE">
+      <point x="-0.0" y="31.5" />
+      <point x="-176.383823939732" y="321.9821428571429" />
+      <point x="412.11607142857144" y="321.9821428571429" />
+      <point x="15.0" y="31.5" />
+    </edge>
+    <edge source="com.example.application.data.postgres.Update" target="com.example.application.data.postgres.Connect" relationship="GENERALIZATION">
+      <point x="61.0" y="-0.0" />
+      <point x="231.0158691406251" y="-28.8125" />
+      <point x="-0.0" y="31.5" />
+    </edge>
+    <edge source="com.example.application.views.daftarukm.DaftarUKMView" target="com.example.application.data.postgres.Update" relationship="TO_ONE">
+      <point x="15.0" y="-31.5" />
+      <point x="-455.97607421875" y="-28.8125" />
+      <point x="-61.0" y="-0.0" />
+    </edge>
+    <edge source="com.example.application.views.daftarukm.DaftarUKMView" target="com.example.application.data.postgres.DaftarUKM" relationship="TO_ONE">
+      <point x="30.0" y="-31.5" />
+      <point x="-440.97607421875" y="36.5" />
+      <point x="-74.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.2173913043478262" showDependencies="true" x="64.4205845424109" y="148.87859235491067" />
+  <SelectedNodes>
+    <node>com.example.application.data.postgres.Update</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

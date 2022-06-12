@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.SCHEMA:dbo6310a8h28f.oop</OriginalElement>
+  <nodes>
+    <node x="158.8846153846153" y="-163.5">0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.login</node>
+    <node x="484.88461538461524" y="80.0">0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.Mahasiswa</node>
+    <node x="-229.61538461538476" y="80.0">0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.ukm</node>
+    <node x="-229.61538461538476" y="-163.5">0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.ukm_registration</node>
+    <node x="158.8846153846153" y="80.0">0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.admin_registration</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.Mahasiswa" target="0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.login" relationship="REFERENCES">
+      <point x="0.0" y="-110.0" />
+      <point x="601.3846153846152" y="-103.0" />
+      <point x="121.5" y="0.0" />
+    </edge>
+    <edge source="0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.ukm_registration" target="0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.login" relationship="REFERENCES">
+      <point x="116.5" y="-11.5" />
+      <point x="-121.5" y="0.0" />
+    </edge>
+    <edge source="0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.admin_registration" target="0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.ukm" relationship="REFERENCES">
+      <point x="-121.5" y="-13.5" />
+      <point x="116.5" y="0.0" />
+    </edge>
+    <edge source="0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.admin_registration" target="0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.login" relationship="REFERENCES">
+      <point x="0.0" y="-46.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.ukm_registration" target="0ceee73b-1a28-40bf-b704-1cc97cb6b4f2.TABLE:dbo6310a8h28f.oop.ukm" relationship="REFERENCES">
+      <point x="-0.0" y="72.0" />
+      <point x="-0.0" y="-32.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="244.0" y="68.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

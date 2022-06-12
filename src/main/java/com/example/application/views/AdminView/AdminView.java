@@ -42,7 +42,7 @@ Update update = new Update();
     Account account = Account.getInstance();
 
 
-    public AdminView() {
+    public AdminView() throws SQLException, URISyntaxException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String role = authentication.getAuthorities().toArray()[0].toString();
 //        if not admin deny access

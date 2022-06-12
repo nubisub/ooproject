@@ -50,7 +50,7 @@ public class DaftarUKMView extends Div {
     ukm.addAll(daftarukm.getDaftarUKM());
     }
 
-    public DaftarUKMView() {
+    public DaftarUKMView() throws SQLException, URISyntaxException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String role = authentication.getAuthorities().toArray()[0].toString();
 //        if not admin deny access

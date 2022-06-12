@@ -6,7 +6,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Update {
+public class Update{
+    Connect connect = Connect.getInstance();
+    Connection connection = connect.getConnection();
+
+
+    public Update() throws SQLException, URISyntaxException {
+    }
+
     public void Update(String nim, String nama, String alamat, String tanggal_lahir, String email, String phone) throws SQLException, URISyntaxException {
         String sql = "UPDATE oop.\"Mahasiswa\"\n" +
                 "SET nama          =  ?,\n" +
@@ -15,8 +22,7 @@ public class Update {
                 "    phone         = ?,\n" +
                 "    alamat        = ?\n" +
                 "WHERE nim LIKE '" + nim + "' ESCAPE '#';\n";
-        Connect connect = Connect.getInstance();
-        Connection connection = connect.getConnection();
+//        Connection connection = connect.getConnection();
 
         PreparedStatement pstmt = connection.prepareStatement(sql);
         pstmt.setString(1, nama);
@@ -29,8 +35,8 @@ public class Update {
 //        connection.close();
     }
     public void updateStatus(String nim) throws SQLException, URISyntaxException {
-        Connect connect = Connect.getInstance();
-        Connection connection = connect.getConnection();
+//        Connect connect = Connect.getInstance();
+//        Connection connection = connect.getConnection();
 
         String sql = "UPDATE oop.\"Mahasiswa\"\n" +
                 "SET status = '1'\n" +
@@ -40,8 +46,8 @@ public class Update {
 
     }
     public void registrasiUKM(String nim, String UKM, int prioritas) throws SQLException, URISyntaxException {
-        Connect connect = Connect.getInstance();
-        Connection connection = connect.getConnection();
+//        Connect connect = Connect.getInstance();
+//        Connection connection = connect.getConnection();
 
         String sql = "insert into oop.ukm_registration VALUES (?, ?, ?, ?)";
         PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -53,8 +59,8 @@ public class Update {
 
     }
     public void UpdateAdminUKM(String nim, String UKM) throws SQLException, URISyntaxException {
-        Connect connect = Connect.getInstance();
-        Connection connection = connect.getConnection();
+//        Connect connect = Connect.getInstance();
+//        Connection connection = connect.getConnection();
 
         String sql = "UPDATE oop.admin_registration\n" +
                 "SET ukm_administrator = '" + UKM + "'\n" +
@@ -67,8 +73,8 @@ public class Update {
 
     }
     public void UpdateStatusUKM(String nim, String UKM, int status) throws SQLException, URISyntaxException {
-        Connect connect = Connect.getInstance();
-        Connection connection = connect.getConnection();
+//        Connect connect = Connect.getInstance();
+//        Connection connection = connect.getConnection();
 
         String sql = "UPDATE oop.ukm_registration\n" +
                 "SET \"statusDaftar\" = '" + status + "'\n" +

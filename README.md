@@ -8,6 +8,8 @@
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 
+pilihukmyuk merupakan aplikasi sistem pendaftaran UKM yang dibuat untuk memudahkan mahasiswa dalam memilih UKM yang diinginkan, aplikasi ini juga memudahkan admin ukm untuk langsung menerima dan menolak mahasiswa yang mendaftar sehingga dapat mengurangi mahasiswa yang mendaftar UKM secara berlebihan. Pembuatan aplikasi ini menggunakan bahasa pemrograman Java, dengan menggunakan framework Vaadin. Aplikasi ini juga sudah di deploy di Heroku dan penyimpanan database menggunakan Postgres.
+
 ## Running the application (Pick One)
 1. Open Your Favorite IDE and Run Application, open `http://localhost:8080/`
 2. Open pilihukmyuk-1.0-SNAPSHOT.jar in "target" folder, open `http://localhost:8080/`
@@ -35,23 +37,27 @@
 [//]: # (- `themes` folder in `frontend/` contains the custom CSS styles.)
 
 ## Status Pendaftaran UKM
+```
 0 = Dalam Proses
-
 1 = Diterima
-
 2 = Ditolak
+```
 
 ## Status Mahasiswa
+```
 0 = Belum Daftar UKM
-
 1 = Sudah Daftar UKM
+```
 
 ## Username dan Password
-Username = 1-737
-
+[Daftar](username_pass.csv)
+```
+Username = Pick number 1-737
 Password = Same as Username
+```
 
-## ENJOY!
+
+### ENJOY!
 
 ## ScreenShot
 <p align="center">
@@ -69,9 +75,3 @@ Password = Same as Username
 <p align="center">
   <img src="docs/mobile4.png" />
 </p>
-
-
-[]()
-[]()
-[]()
-[]()

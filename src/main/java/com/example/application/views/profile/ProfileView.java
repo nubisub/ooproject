@@ -51,9 +51,11 @@ public class ProfileView extends Div {
     TextField nim = new TextField("NIM");
     public PhoneNumberField phone = new PhoneNumberField("Nomor Telepon");
     public TextField alamat = new TextField("Alamat");
+    Account account = Account.getInstance();
+
     public Button save = new Button("Save");
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
-    public ProfileView(SamplePersonService personService) {
+    public ProfileView(SamplePersonService personService) throws SQLException, URISyntaxException {
 
         addClassName("profile-view");
         add(createTitle());
@@ -78,7 +80,6 @@ public class ProfileView extends Div {
         DatePicker dateOfBirth = new DatePicker("Tanggal Lahir");
         email.setErrorMessage("Please enter a valid email address");
         nim.setReadOnly(true);
-        Account account = Account.getInstance();
         nim.setValue(account.getNim());
         nama.setValue(account.getNama());
         alamat.setValue(account.getAlamat());

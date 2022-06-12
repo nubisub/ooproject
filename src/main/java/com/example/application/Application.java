@@ -9,7 +9,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 /**
  * The entry point of the Spring Boot application.
  *
@@ -22,7 +24,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @PWA(name = "Pilih UKM Yuk", shortName = "Pilih UKM Yuk", offlineResources = {})
 @NpmPackage(value = "line-awesome", version = "1.3.0")
 public class Application extends SpringBootServletInitializer implements AppShellConfigurator {
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

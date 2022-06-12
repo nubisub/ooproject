@@ -1,9 +1,14 @@
 package com.example.application.data.postgres;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+
 
 public class Account {
     public  static Account instance;
