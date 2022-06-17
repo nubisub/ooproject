@@ -50,7 +50,11 @@ pilihukmyuk merupakan aplikasi sistem pendaftaran UKM yang dibuat untuk memudahk
 ```
 
 ## Username dan Password
-[Daftar](username_pass.csv)
+[List](username_pass.csv)
+
+[Data generated from Online test data generator](https://www.onlinedatagenerator.com/)
+
+[Date Generator](https://random.limited/date-time-generator/)
 ```
 Username = Pick number 1-737
 Password = Same as Username
